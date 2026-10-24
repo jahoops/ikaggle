@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ikaggle"
+version = "0.1.0"
+description = "Insurance Kaggle Competition Tools"
+requires-python = ">=3.8"
+dependencies = [
+    "numpy",
+    "pandas",
+    "tensorflow",
+    "scikit-learn",
+    "deap"
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["ikaggle*"]
+namespaces = true

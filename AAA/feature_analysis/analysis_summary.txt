@@ -1,0 +1,38 @@
+Feature Analysis Summary
+==================================================
+
+Top 10 Interaction Features by Correlation:
+                              feature  correlation   p_value
+14  NumberofDependents PreviousClaims     0.081047  0.010349
+15         HealthScore PreviousClaims     0.073808  0.019581
+8                     Age HealthScore     0.072492  0.021874
+4                         HealthScore     0.065027  0.039788
+5                      PreviousClaims     0.054528  0.084809
+9                  Age PreviousClaims     0.048639  0.124270
+12        AnnualIncome PreviousClaims     0.034037  0.282238
+2                        AnnualIncome     0.032449  0.305308
+13     NumberofDependents HealthScore     0.025305  0.424084
+7              Age NumberofDependents     0.024528  0.438460
+
+Top 10 Features by Statistical Significance:
+                              feature   p_value  r_squared  valid_samples
+14  NumberofDependents PreviousClaims  0.010349   0.006569           1000
+15         HealthScore PreviousClaims  0.019581   0.005448           1000
+8                     Age HealthScore  0.021874   0.005255           1000
+4                         HealthScore  0.039788   0.004229           1000
+5                      PreviousClaims  0.084809   0.002973           1000
+9                  Age PreviousClaims  0.124270   0.002366           1000
+12        AnnualIncome PreviousClaims  0.282238   0.001159           1000
+2                        AnnualIncome  0.305308   0.001053           1000
+13     NumberofDependents HealthScore  0.424084   0.000640           1000
+7              Age NumberofDependents  0.438460   0.000602           1000
+
+Selected Features by RFE:
+                           feature  selected  ranking
+6                 Age AnnualIncome      True        1
+4                      HealthScore      True        1
+11        AnnualIncome HealthScore      True        1
+8                  Age HealthScore      True        1
+13  NumberofDependents HealthScore      True        1
+
+Best Model Score (RMSLE): -1.1386197492038046

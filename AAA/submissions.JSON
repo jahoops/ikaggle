@@ -1,0 +1,46 @@
+{
+    "submissions": [
+        {
+            "id": 1,
+            "model": "catboost",
+            "train": "/home/USER/Projects/ikaggle/ensembles/inputs/catboost/train.csv",
+            "validate": "/home/USER/Projects/ikaggle/ensembles/inputs/catboost/validate.csv",
+            "test": "/home/USER/Projects/ikaggle/ensembles/inputs/catboost/test.csv"
+        },
+        {
+            "id": 2,
+            "model": "knn",
+            "train": "/home/USER/Projects/ikaggle/ensembles/inputs/knn/train.csv",
+            "validate": "/home/USER/Projects/ikaggle/ensembles/inputs/knn/validate.csv",
+            "test": "/home/USER/Projects/ikaggle/ensembles/inputs/knn/test.csv"
+        },
+        {
+            "id": 3,
+            "model": "lightgbm",
+            "train": "/home/USER/Projects/ikaggle/ensembles/inputs/lightgbm/train.csv",
+            "validate": "/home/USER/Projects/ikaggle/ensembles/inputs/lightgbm/validate.csv",
+            "test": "/home/USER/Projects/ikaggle/ensembles/inputs/lightgbm/test.csv"
+        },
+        {
+            "id": 4,
+            "model": "neuralnet",
+            "train": "/home/USER/Projects/ikaggle/ensembles/inputs/neuralnet/train.csv",
+            "validate": "/home/USER/Projects/ikaggle/ensembles/inputs/neuralnet/validate.csv",
+            "test": "/home/USER/Projects/ikaggle/ensembles/inputs/neuralnet/test.csv"
+        },
+        {
+            "id": 5,
+            "model": "ridge",
+            "train": "/home/USER/Projects/ikaggle/ensembles/inputs/ridge/train.csv",
+            "validate": "/home/USER/Projects/ikaggle/ensembles/inputs/ridge/validate.csv",
+            "test": "/home/USER/Projects/ikaggle/ensembles/inputs/ridge/test.csv"
+        },
+        {
+            "id": 6,
+            "model": "svr",
+            "train": "/home/USER/Projects/ikaggle/ensembles/inputs/svr/train.csv",
+            "validate": "/home/USER/Projects/ikaggle/ensembles/inputs/svr/validate.csv",
+            "test": "/home/USER/Projects/ikaggle/ensembles/inputs/svr/test.csv"
+        }
+    ]
+}

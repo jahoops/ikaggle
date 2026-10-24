@@ -1,0 +1,73 @@
+preprocessing:
+  test_size: 0.2
+  random_state: 42
+  categorical_features:
+    - Gender
+    - MaritalStatus
+    - EducationLevel
+    - Occupation
+    - Location
+    - PolicyType
+    - CustomerFeedback
+    - SmokingStatus
+    - ExerciseFrequency
+    - PropertyType
+  numerical_features:
+    - Age
+    - AnnualIncome
+    - NumberofDependents
+    - HealthScore
+    - PreviousClaims
+    - VehicleAge
+    - CreditScore
+    - InsuranceDuration
+  scaling: standard
+
+model:
+  name: GradientBoostingRegressor
+  params:
+    n_estimators: 500
+    learning_rate: 0.03
+    max_depth: 6
+    subsample: 0.8
+    max_features: 0.8
+    random_state: 42
+    min_samples_split: 100
+    min_samples_leaf: 50
+  gbm_params:
+    n_estimators: 1000
+    learning_rate: 0.01
+    max_depth: 5
+    min_samples_split: 5
+    min_samples_leaf: 3
+    subsample: 0.8
+    random_state: 42
+    n_jobs: -1
+  importance_threshold: 0.001
+  gpu_settings:
+    enabled: true
+    device_id: 0
+    platform_id: 0
+    threads_per_gpu: 4
+    max_bins: 63  # Optimized for GPU
+    gpu_memory_fraction: 0.8  # Limit GPU memory usage
+  cpu_settings:
+    n_jobs: -1  # Use all available cores
+    thread_count: -1  # Auto-detect
+  xgboost:
+    tree_method: 'hist'
+    device: 'cuda'
+    predictor: 'gpu_predictor'
+    max_bin: 63
+    sampling_method: 'gradient_based'
+  lightgbm:
+    device: 'gpu'
+    gpu_platform_id: 0
+    gpu_device_id: 0
+    gpu_use_dp: false
+    gpu_use_histogram: true
+    gpu_wrap_mode: true
+    gpu_cat_smooth: 10
+
+
+

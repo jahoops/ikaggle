@@ -1,0 +1,4051 @@
+Starting fixed insurance premium prediction pipeline...
+
+================================================================================
+STEP 1: DATA PROCESSING
+================================================================================
+Loading raw data...
+Train data shape: (1200000, 21)
+Test data shape: (800000, 20)
+Target variable extracted: 1200000 values
+
+Exploring data...
+
+Missing values in training data:
+Age                    18705
+AnnualIncome           44949
+MaritalStatus          18529
+NumberofDependents    109672
+Occupation            358075
+HealthScore            74076
+PreviousClaims        364029
+VehicleAge                 6
+CreditScore           137882
+InsuranceDuration          1
+CustomerFeedback       77824
+dtype: int64
+
+Missing values in test data:
+Age                    12489
+AnnualIncome           29860
+MaritalStatus          12336
+NumberofDependents     73130
+Occupation            239125
+HealthScore            49449
+PreviousClaims        242802
+VehicleAge                 3
+CreditScore            91451
+InsuranceDuration          2
+CustomerFeedback       52276
+dtype: int64
+
+Data types:
+id                      int64
+Age                   float64
+Gender                 object
+AnnualIncome          float64
+MaritalStatus          object
+NumberofDependents    float64
+EducationLevel         object
+Occupation             object
+HealthScore           float64
+Location               object
+PolicyType             object
+PreviousClaims        float64
+VehicleAge            float64
+CreditScore           float64
+InsuranceDuration     float64
+PolicyStartDate        object
+CustomerFeedback       object
+SmokingStatus          object
+ExerciseFrequency      object
+PropertyType           object
+dtype: object
+
+Basic statistics for numerical features:
+                Age  AnnualIncome  ...   CreditScore  InsuranceDuration
+count  1.181295e+06  1.155051e+06  ...  1.062118e+06       1.199999e+06
+mean   4.114556e+01  3.274522e+04  ...  5.929244e+02       5.018219e+00
+std    1.353995e+01  3.217951e+04  ...  1.499819e+02       2.594331e+00
+min    1.800000e+01  1.000000e+00  ...  3.000000e+02       1.000000e+00
+25%    3.000000e+01  8.001000e+03  ...  4.680000e+02       3.000000e+00
+50%    4.100000e+01  2.391100e+04  ...  5.950000e+02       5.000000e+00
+75%    5.300000e+01  4.463400e+04  ...  7.210000e+02       7.000000e+00
+max    6.400000e+01  1.499970e+05  ...  8.490000e+02       9.000000e+00
+
+[8 rows x 8 columns]
+
+Cleaning data...
+Data cleaning complete. Train shape: (1200000, 23), Test shape: (800000, 23)
+
+Engineering features...
+
+Encoding categorical features...
+Binary encoding SmokingStatus as 0-1
+
+Scaling numerical features...
+Identified Gender_Female as one-hot feature (will not be scaled)
+Identified Gender_Male as one-hot feature (will not be scaled)
+Identified MaritalStatus_Divorced as one-hot feature (will not be scaled)
+Identified MaritalStatus_Married as one-hot feature (will not be scaled)
+Identified MaritalStatus_Single as one-hot feature (will not be scaled)
+Identified MaritalStatus_missing as one-hot feature (will not be scaled)
+Identified EducationLevel_Bachelor's as one-hot feature (will not be scaled)
+Identified EducationLevel_High School as one-hot feature (will not be scaled)
+Identified EducationLevel_Master's as one-hot feature (will not be scaled)
+Identified EducationLevel_PhD as one-hot feature (will not be scaled)
+Identified Occupation_Employed as one-hot feature (will not be scaled)
+Identified Occupation_Self-Employed as one-hot feature (will not be scaled)
+Identified Occupation_Unemployed as one-hot feature (will not be scaled)
+Identified Occupation_missing as one-hot feature (will not be scaled)
+Identified Location_Rural as one-hot feature (will not be scaled)
+Identified Location_Suburban as one-hot feature (will not be scaled)
+Identified Location_Urban as one-hot feature (will not be scaled)
+Identified PolicyType_Basic as one-hot feature (will not be scaled)
+Identified PolicyType_Comprehensive as one-hot feature (will not be scaled)
+Identified PolicyType_Premium as one-hot feature (will not be scaled)
+Identified CustomerFeedback_Average as one-hot feature (will not be scaled)
+Identified CustomerFeedback_Good as one-hot feature (will not be scaled)
+Identified CustomerFeedback_Poor as one-hot feature (will not be scaled)
+Identified CustomerFeedback_missing as one-hot feature (will not be scaled)
+Identified ExerciseFrequency_Daily as one-hot feature (will not be scaled)
+Identified ExerciseFrequency_Monthly as one-hot feature (will not be scaled)
+Identified ExerciseFrequency_Rarely as one-hot feature (will not be scaled)
+Identified ExerciseFrequency_Weekly as one-hot feature (will not be scaled)
+Identified PropertyType_Apartment as one-hot feature (will not be scaled)
+Identified PropertyType_Condo as one-hot feature (will not be scaled)
+Identified PropertyType_House as one-hot feature (will not be scaled)
+Removing SmokingStatus from scaling as it should remain binary/categorical
+Removing Gender_Female from scaling as it should remain binary/categorical
+Removing Gender_Male from scaling as it should remain binary/categorical
+Removing MaritalStatus_Divorced from scaling as it should remain binary/categorical
+Removing MaritalStatus_Married from scaling as it should remain binary/categorical
+Removing MaritalStatus_Single from scaling as it should remain binary/categorical
+Removing MaritalStatus_missing from scaling as it should remain binary/categorical
+Removing EducationLevel_Bachelor's from scaling as it should remain binary/categorical
+Removing EducationLevel_High School from scaling as it should remain binary/categorical
+Removing EducationLevel_Master's from scaling as it should remain binary/categorical
+Removing EducationLevel_PhD from scaling as it should remain binary/categorical
+Removing Occupation_Employed from scaling as it should remain binary/categorical
+Removing Occupation_Self-Employed from scaling as it should remain binary/categorical
+Removing Occupation_Unemployed from scaling as it should remain binary/categorical
+Removing Occupation_missing from scaling as it should remain binary/categorical
+Removing Location_Rural from scaling as it should remain binary/categorical
+Removing Location_Suburban from scaling as it should remain binary/categorical
+Removing Location_Urban from scaling as it should remain binary/categorical
+Removing PolicyType_Basic from scaling as it should remain binary/categorical
+Removing PolicyType_Comprehensive from scaling as it should remain binary/categorical
+Removing PolicyType_Premium from scaling as it should remain binary/categorical
+Removing CustomerFeedback_Average from scaling as it should remain binary/categorical
+Removing CustomerFeedback_Good from scaling as it should remain binary/categorical
+Removing CustomerFeedback_Poor from scaling as it should remain binary/categorical
+Removing CustomerFeedback_missing from scaling as it should remain binary/categorical
+Removing ExerciseFrequency_Daily from scaling as it should remain binary/categorical
+Removing ExerciseFrequency_Monthly from scaling as it should remain binary/categorical
+Removing ExerciseFrequency_Rarely from scaling as it should remain binary/categorical
+Removing ExerciseFrequency_Weekly from scaling as it should remain binary/categorical
+Removing PropertyType_Apartment from scaling as it should remain binary/categorical
+Removing PropertyType_Condo from scaling as it should remain binary/categorical
+Removing PropertyType_House from scaling as it should remain binary/categorical
+Using MinMaxScaler for the following features to avoid negative values:
+PolicyStartDate_Year, PolicyStartDate_Month, PolicyStartDate_Day, PolicyStartDate_DayOfWeek, Age_HealthScore_Interaction, AnnualIncome_CreditScore_Interaction, AnnualIncome_NumberofDependents_Interaction, HealthScore_SmokingStatus_Interaction, Age_PreviousClaims_Interaction, InsuranceDuration_PreviousClaims_Interaction, IncomePerDependent, HealthScoreToAgeRatio, ClaimsPerYear, id, Age, AnnualIncome, NumberofDependents, HealthScore, PreviousClaims, VehicleAge, CreditScore, InsuranceDuration
+Clipped SmokingStatus to 0-1 range after processing
+Clipped Gender_Female to 0-1 range after processing
+Clipped Gender_Male to 0-1 range after processing
+Clipped MaritalStatus_Divorced to 0-1 range after processing
+Clipped MaritalStatus_Married to 0-1 range after processing
+Clipped MaritalStatus_Single to 0-1 range after processing
+Clipped MaritalStatus_missing to 0-1 range after processing
+Clipped EducationLevel_Bachelor's to 0-1 range after processing
+Clipped EducationLevel_High School to 0-1 range after processing
+Clipped EducationLevel_Master's to 0-1 range after processing
+Clipped EducationLevel_PhD to 0-1 range after processing
+Clipped Occupation_Employed to 0-1 range after processing
+Clipped Occupation_Self-Employed to 0-1 range after processing
+Clipped Occupation_Unemployed to 0-1 range after processing
+Clipped Occupation_missing to 0-1 range after processing
+Clipped Location_Rural to 0-1 range after processing
+Clipped Location_Suburban to 0-1 range after processing
+Clipped Location_Urban to 0-1 range after processing
+Clipped PolicyType_Basic to 0-1 range after processing
+Clipped PolicyType_Comprehensive to 0-1 range after processing
+Clipped PolicyType_Premium to 0-1 range after processing
+Clipped CustomerFeedback_Average to 0-1 range after processing
+Clipped CustomerFeedback_Good to 0-1 range after processing
+Clipped CustomerFeedback_Poor to 0-1 range after processing
+Clipped CustomerFeedback_missing to 0-1 range after processing
+Clipped ExerciseFrequency_Daily to 0-1 range after processing
+Clipped ExerciseFrequency_Monthly to 0-1 range after processing
+Clipped ExerciseFrequency_Rarely to 0-1 range after processing
+Clipped ExerciseFrequency_Weekly to 0-1 range after processing
+Clipped PropertyType_Apartment to 0-1 range after processing
+Clipped PropertyType_Condo to 0-1 range after processing
+Clipped PropertyType_House to 0-1 range after processing
+
+Final data shapes:
+X_train: (1200000, 55)
+X_test: (800000, 55)
+y_train: (1200000,)
+
+Forcing non-negative values for one-hot encoded features...
+  Clipped Gender_Female to be non-negative
+  Clipped Gender_Male to be non-negative
+  Clipped MaritalStatus_Divorced to be non-negative
+  Clipped MaritalStatus_Married to be non-negative
+  Clipped MaritalStatus_Single to be non-negative
+  Clipped MaritalStatus_missing to be non-negative
+  Clipped EducationLevel_Bachelor's to be non-negative
+  Clipped EducationLevel_High School to be non-negative
+  Clipped EducationLevel_Master's to be non-negative
+  Clipped EducationLevel_PhD to be non-negative
+  Clipped Occupation_Employed to be non-negative
+  Clipped Occupation_Self-Employed to be non-negative
+  Clipped Occupation_Unemployed to be non-negative
+  Clipped Occupation_missing to be non-negative
+  Clipped Location_Rural to be non-negative
+  Clipped Location_Suburban to be non-negative
+  Clipped Location_Urban to be non-negative
+  Clipped PolicyType_Basic to be non-negative
+  Clipped PolicyType_Comprehensive to be non-negative
+  Clipped PolicyType_Premium to be non-negative
+  Clipped CustomerFeedback_Average to be non-negative
+  Clipped CustomerFeedback_Good to be non-negative
+  Clipped CustomerFeedback_Poor to be non-negative
+  Clipped CustomerFeedback_missing to be non-negative
+  Clipped ExerciseFrequency_Daily to be non-negative
+  Clipped ExerciseFrequency_Monthly to be non-negative
+  Clipped ExerciseFrequency_Rarely to be non-negative
+  Clipped ExerciseFrequency_Weekly to be non-negative
+  Clipped PropertyType_Apartment to be non-negative
+  Clipped PropertyType_Condo to be non-negative
+  Clipped PropertyType_House to be non-negative
+  Clipped SmokingStatus to be between 0 and 1
+
+==== VALIDATION CHECKPOINT 1 ====
+Stage: data_processing
+Data: X_train
+
+Statistics:
+  id:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.5
+    median: 0.5
+    std: 0.28867537515752534
+    zero_count: 1
+    zero_percent: 8.333333333333333e-05
+    negative_count: 0
+    negative_percent: 0.0
+  Age:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.50311509057971
+    median: 0.5
+    std: 0.29204379916541645
+    zero_count: 24488
+    zero_percent: 2.0406666666666666
+    negative_count: 0
+    negative_percent: 0.0
+  AnnualIncome:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.216094496281012
+    median: 0.1594042507800208
+    std: 0.21077622258454864
+    zero_count: 1
+    zero_percent: 8.333333333333333e-05
+    negative_count: 0
+    negative_percent: 0.0
+  NumberofDependents:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.45655979166666666
+    median: 0.5
+    std: 0.36748466573444477
+    zero_count: 327796
+    zero_percent: 27.316333333333333
+    negative_count: 0
+    negative_percent: 0.0
+  HealthScore:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0000000000000002
+    mean: 0.4143284248240171
+    median: 0.4143284248240172
+    std: 0.20751464756232965
+    zero_count: 1
+    zero_percent: 8.333333333333333e-05
+    negative_count: 0
+    negative_percent: 0.0
+  PreviousClaims:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.07761287037037033
+    median: 0.0
+    std: 0.10455125334061909
+    zero_count: 669462
+    zero_percent: 55.7885
+    negative_count: 0
+    negative_percent: 0.0
+  VehicleAge:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.503678464912281
+    median: 0.5263157894736842
+    std: 0.3040090479139155
+    zero_count: 61615
+    zero_percent: 5.1345833333333335
+    negative_count: 0
+    negative_percent: 0.0
+  CreditScore:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 0.9999999999999999
+    mean: 0.5339942547055252
+    median: 0.5373406193078324
+    std: 0.2570200320585057
+    zero_count: 856
+    zero_percent: 0.07133333333333333
+    negative_count: 0
+    negative_percent: 0.0
+  InsuranceDuration:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.5022773958333333
+    median: 0.5
+    std: 0.324291147526496
+    zero_count: 135072
+    zero_percent: 11.256
+    negative_count: 0
+    negative_percent: 0.0
+  SmokingStatus:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.5015608333333333
+    median: 1.0
+    std: 0.49999756379337035
+    zero_count: 598127
+    zero_percent: 49.843916666666665
+    negative_count: 0
+    negative_percent: 0.0
+  PolicyStartDate_Year:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.5241740000000116
+    median: 0.6000000000000227
+    std: 0.29520154311475927
+    zero_count: 84289
+    zero_percent: 7.0240833333333335
+    negative_count: 0
+    negative_percent: 0.0
+  PolicyStartDate_Month:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 0.9999999999999999
+    mean: 0.49933371212121214
+    median: 0.4545454545454545
+    std: 0.31206251514838823
+    zero_count: 98535
+    zero_percent: 8.21125
+    negative_count: 0
+    negative_percent: 0.0
+  PolicyStartDate_Day:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 0.9999999999999999
+    mean: 0.4902059722222222
+    median: 0.5
+    std: 0.2937240960705824
+    zero_count: 38826
+    zero_percent: 3.2355
+    negative_count: 0
+    negative_percent: 0.0
+  PolicyStartDate_DayOfWeek:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.49902111111111097
+    median: 0.5
+    std: 0.33371438652917446
+    zero_count: 172495
+    zero_percent: 14.374583333333334
+    negative_count: 0
+    negative_percent: 0.0
+  Age_HealthScore_Interaction:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 0.9999999999999999
+    mean: 0.27844071028975903
+    median: 0.24687973382610465
+    std: 0.16934293116564947
+    zero_count: 1
+    zero_percent: 8.333333333333333e-05
+    negative_count: 0
+    negative_percent: 0.0
+  AnnualIncome_CreditScore_Interaction:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.1449222764627659
+    median: 0.10799218368820562
+    std: 0.14119254001796774
+    zero_count: 1
+    zero_percent: 8.333333333333333e-05
+    negative_count: 0
+    negative_percent: 0.0
+  AnnualIncome_NumberofDependents_Interaction:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.09857451591254048
+    median: 0.039852463715940985
+    std: 0.14665032969990657
+    zero_count: 327796
+    zero_percent: 27.316333333333333
+    negative_count: 0
+    negative_percent: 0.0
+  HealthScore_SmokingStatus_Interaction:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.21958342200867614
+    median: 0.060593327888146475
+    std: 0.2614824899025174
+    zero_count: 598127
+    zero_percent: 49.843916666666665
+    negative_count: 0
+    negative_percent: 0.0
+  Age_PreviousClaims_Interaction:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.05704083333333332
+    median: 0.0
+    std: 0.08296594444310089
+    zero_count: 669462
+    zero_percent: 55.7885
+    negative_count: 0
+    negative_percent: 0.0
+  InsuranceDuration_PreviousClaims_Interaction:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.04331063786008231
+    median: 0.0
+    std: 0.06937874904875242
+    zero_count: 669462
+    zero_percent: 55.7885
+    negative_count: 0
+    negative_percent: 0.0
+  IncomePerDependent:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.10937757449511448
+    median: 0.05844399139713833
+    std: 0.14402019452256012
+    zero_count: 1
+    zero_percent: 8.333333333333333e-05
+    negative_count: 0
+    negative_percent: 0.0
+  HealthScoreToAgeRatio:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.20896394153450137
+    median: 0.17887419011591238
+    std: 0.1373532022653272
+    zero_count: 1
+    zero_percent: 8.333333333333333e-05
+    negative_count: 0
+    negative_percent: 0.0
+  ClaimsPerYear:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.028630139025669493
+    median: 0.0
+    std: 0.05494190463238482
+    zero_count: 669462
+    zero_percent: 55.7885
+    negative_count: 0
+    negative_percent: 0.0
+  InsuranceRiskScore:
+    count: 1200000
+    missing: 0
+    min: -3.1695411576732493
+    max: 4.164833257822434
+    mean: -3.165349464021953e-16
+    median: 0.059388714744921106
+    std: 1.0000000000000002
+    zero_count: 0
+    zero_percent: 0.0
+    negative_count: 570956
+    negative_percent: 47.57966666666667
+  Gender_Female:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.4978575
+    median: 0.0
+    std: 0.49999540967267886
+    zero_count: 602571
+    zero_percent: 50.21425
+    negative_count: 0
+    negative_percent: 0.0
+  Gender_Male:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.5021425
+    median: 1.0
+    std: 0.49999540967267886
+    zero_count: 597429
+    zero_percent: 49.78575
+    negative_count: 0
+    negative_percent: 0.0
+  MaritalStatus_Divorced:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.32647
+    median: 0.0
+    std: 0.4689214636802198
+    zero_count: 808236
+    zero_percent: 67.353
+    negative_count: 0
+    negative_percent: 0.0
+  MaritalStatus_Married:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.32859666666666665
+    median: 0.0
+    std: 0.46970298841099795
+    zero_count: 805684
+    zero_percent: 67.14033333333333
+    negative_count: 0
+    negative_percent: 0.0
+  MaritalStatus_Single:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.3294925
+    median: 0.0
+    std: 0.4700289272414517
+    zero_count: 804609
+    zero_percent: 67.05075
+    negative_count: 0
+    negative_percent: 0.0
+  MaritalStatus_missing:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.015440833333333334
+    median: 0.0
+    std: 0.1232980697306554
+    zero_count: 1181471
+    zero_percent: 98.45591666666667
+    negative_count: 0
+    negative_percent: 0.0
+  EducationLevel_Bachelor's:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.252695
+    median: 0.0
+    std: 0.43455751860369424
+    zero_count: 896766
+    zero_percent: 74.7305
+    negative_count: 0
+    negative_percent: 0.0
+  EducationLevel_High School:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.24120083333333334
+    median: 0.0
+    std: 0.42781186441313074
+    zero_count: 910559
+    zero_percent: 75.87991666666667
+    negative_count: 0
+    negative_percent: 0.0
+  EducationLevel_Master's:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.2531816666666667
+    median: 0.0
+    std: 0.43483411817675416
+    zero_count: 896182
+    zero_percent: 74.68183333333333
+    negative_count: 0
+    negative_percent: 0.0
+  EducationLevel_PhD:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.2529225
+    median: 0.0
+    std: 0.43468690915847696
+    zero_count: 896493
+    zero_percent: 74.70775
+    negative_count: 0
+    negative_percent: 0.0
+  Occupation_Employed:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.235625
+    median: 0.0
+    std: 0.42438880684461977
+    zero_count: 917250
+    zero_percent: 76.4375
+    negative_count: 0
+    negative_percent: 0.0
+  Occupation_Self-Employed:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.2355375
+    median: 0.0
+    std: 0.4243342857862773
+    zero_count: 917355
+    zero_percent: 76.44625
+    negative_count: 0
+    negative_percent: 0.0
+  Occupation_Unemployed:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.23044166666666666
+    median: 0.0
+    std: 0.42111554819378927
+    zero_count: 923470
+    zero_percent: 76.95583333333333
+    negative_count: 0
+    negative_percent: 0.0
+  Occupation_missing:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.29839583333333336
+    median: 0.0
+    std: 0.4575541060712261
+    zero_count: 841925
+    zero_percent: 70.16041666666666
+    negative_count: 0
+    negative_percent: 0.0
+  Location_Rural:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.3341225
+    median: 0.0
+    std: 0.4716827906482808
+    zero_count: 799053
+    zero_percent: 66.58775
+    negative_count: 0
+    negative_percent: 0.0
+  Location_Suburban:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.33461833333333335
+    median: 0.0
+    std: 0.47185686847873215
+    zero_count: 798458
+    zero_percent: 66.53816666666667
+    negative_count: 0
+    negative_percent: 0.0
+  Location_Urban:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.33125916666666666
+    median: 0.0
+    std: 0.47066605057723493
+    zero_count: 802489
+    zero_percent: 66.87408333333333
+    negative_count: 0
+    negative_percent: 0.0
+  PolicyType_Basic:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.33212833333333336
+    median: 0.0
+    std: 0.47097675476668216
+    zero_count: 801446
+    zero_percent: 66.78716666666666
+    negative_count: 0
+    negative_percent: 0.0
+  PolicyType_Comprehensive:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.333
+    median: 0.0
+    std: 0.4712865370451399
+    zero_count: 800400
+    zero_percent: 66.7
+    negative_count: 0
+    negative_percent: 0.0
+  PolicyType_Premium:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.3348716666666667
+    median: 0.0
+    std: 0.47194558323026575
+    zero_count: 798154
+    zero_percent: 66.51283333333333
+    negative_count: 0
+    negative_percent: 0.0
+  CustomerFeedback_Average:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.3149208333333333
+    median: 0.0
+    std: 0.46448433995773447
+    zero_count: 822095
+    zero_percent: 68.50791666666667
+    negative_count: 0
+    negative_percent: 0.0
+  CustomerFeedback_Good:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.30729416666666665
+    median: 0.0
+    std: 0.4613723678324327
+    zero_count: 831247
+    zero_percent: 69.27058333333333
+    negative_count: 0
+    negative_percent: 0.0
+  CustomerFeedback_Poor:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.31293166666666666
+    median: 0.0
+    std: 0.46368678939979385
+    zero_count: 824482
+    zero_percent: 68.70683333333334
+    negative_count: 0
+    negative_percent: 0.0
+  CustomerFeedback_missing:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.06485333333333333
+    median: 0.0
+    std: 0.2462668846777595
+    zero_count: 1122176
+    zero_percent: 93.51466666666667
+    negative_count: 0
+    negative_percent: 0.0
+  ExerciseFrequency_Daily:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.24547583333333334
+    median: 0.0
+    std: 0.43036896795963203
+    zero_count: 905429
+    zero_percent: 75.45241666666666
+    negative_count: 0
+    negative_percent: 0.0
+  ExerciseFrequency_Monthly:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.24985833333333332
+    median: 0.0
+    std: 0.4329308796993145
+    zero_count: 900170
+    zero_percent: 75.01416666666667
+    negative_count: 0
+    negative_percent: 0.0
+  ExerciseFrequency_Rarely:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.24951666666666666
+    median: 0.0
+    std: 0.43273328936219163
+    zero_count: 900580
+    zero_percent: 75.04833333333333
+    negative_count: 0
+    negative_percent: 0.0
+  ExerciseFrequency_Weekly:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.25514916666666665
+    median: 0.0
+    std: 0.43594503026869363
+    zero_count: 893821
+    zero_percent: 74.48508333333334
+    negative_count: 0
+    negative_percent: 0.0
+  PropertyType_Apartment:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.333315
+    median: 0.0
+    std: 0.47139803857780316
+    zero_count: 800022
+    zero_percent: 66.6685
+    negative_count: 0
+    negative_percent: 0.0
+  PropertyType_Condo:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.3330608333333333
+    median: 0.0
+    std: 0.4713080888682465
+    zero_count: 800327
+    zero_percent: 66.69391666666667
+    negative_count: 0
+    negative_percent: 0.0
+  PropertyType_House:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.33362416666666667
+    median: 0.0
+    std: 0.4715072449948558
+    zero_count: 799651
+    zero_percent: 66.63758333333334
+    negative_count: 0
+    negative_percent: 0.0
+
+WARNINGS (35):
+  ⚠️ Column 'NumberofDependents' has 27.3% zero values
+  ⚠️ Column 'SmokingStatus' has 49.8% zero values
+  ⚠️ Column 'AnnualIncome_NumberofDependents_Interaction' has 27.3% zero values
+  ⚠️ Column 'InsuranceRiskScore' has 47.6% negative values
+  ⚠️ Column 'Gender_Female' has 50.2% zero values
+  ⚠️ Column 'Gender_Male' has 49.8% zero values
+  ⚠️ Column 'MaritalStatus_Divorced' has 67.4% zero values
+  ⚠️ Column 'MaritalStatus_Married' has 67.1% zero values
+  ⚠️ Column 'MaritalStatus_Single' has 67.1% zero values
+  ⚠️ Column 'MaritalStatus_missing' has 98.5% zero values
+  ⚠️ Column 'EducationLevel_Bachelor's' has 74.7% zero values
+  ⚠️ Column 'EducationLevel_High School' has 75.9% zero values
+  ⚠️ Column 'EducationLevel_Master's' has 74.7% zero values
+  ⚠️ Column 'EducationLevel_PhD' has 74.7% zero values
+  ⚠️ Column 'Occupation_Employed' has 76.4% zero values
+  ⚠️ Column 'Occupation_Self-Employed' has 76.4% zero values
+  ⚠️ Column 'Occupation_Unemployed' has 77.0% zero values
+  ⚠️ Column 'Occupation_missing' has 70.2% zero values
+  ⚠️ Column 'Location_Rural' has 66.6% zero values
+  ⚠️ Column 'Location_Suburban' has 66.5% zero values
+  ⚠️ Column 'Location_Urban' has 66.9% zero values
+  ⚠️ Column 'PolicyType_Basic' has 66.8% zero values
+  ⚠️ Column 'PolicyType_Comprehensive' has 66.7% zero values
+  ⚠️ Column 'PolicyType_Premium' has 66.5% zero values
+  ⚠️ Column 'CustomerFeedback_Average' has 68.5% zero values
+  ⚠️ Column 'CustomerFeedback_Good' has 69.3% zero values
+  ⚠️ Column 'CustomerFeedback_Poor' has 68.7% zero values
+  ⚠️ Column 'CustomerFeedback_missing' has 93.5% zero values
+  ⚠️ Column 'ExerciseFrequency_Daily' has 75.5% zero values
+  ⚠️ Column 'ExerciseFrequency_Monthly' has 75.0% zero values
+  ⚠️ Column 'ExerciseFrequency_Rarely' has 75.0% zero values
+  ⚠️ Column 'ExerciseFrequency_Weekly' has 74.5% zero values
+  ⚠️ Column 'PropertyType_Apartment' has 66.7% zero values
+  ⚠️ Column 'PropertyType_Condo' has 66.7% zero values
+  ⚠️ Column 'PropertyType_House' has 66.6% zero values
+
+ERRORS (33):
+  ❌ Column 'SmokingStatus' has too many zeros (49.8%)
+  ❌ Column 'InsuranceRiskScore' has too many negative values (47.6%)
+  ❌ Column 'Gender_Female' has too many zeros (50.2%)
+  ❌ Column 'Gender_Male' has too many zeros (49.8%)
+  ❌ Column 'MaritalStatus_Divorced' has too many zeros (67.4%)
+  ❌ Column 'MaritalStatus_Married' has too many zeros (67.1%)
+  ❌ Column 'MaritalStatus_Single' has too many zeros (67.1%)
+  ❌ Column 'MaritalStatus_missing' has too many zeros (98.5%)
+  ❌ Column 'EducationLevel_Bachelor's' has too many zeros (74.7%)
+  ❌ Column 'EducationLevel_High School' has too many zeros (75.9%)
+  ❌ Column 'EducationLevel_Master's' has too many zeros (74.7%)
+  ❌ Column 'EducationLevel_PhD' has too many zeros (74.7%)
+  ❌ Column 'Occupation_Employed' has too many zeros (76.4%)
+  ❌ Column 'Occupation_Self-Employed' has too many zeros (76.4%)
+  ❌ Column 'Occupation_Unemployed' has too many zeros (77.0%)
+  ❌ Column 'Occupation_missing' has too many zeros (70.2%)
+  ❌ Column 'Location_Rural' has too many zeros (66.6%)
+  ❌ Column 'Location_Suburban' has too many zeros (66.5%)
+  ❌ Column 'Location_Urban' has too many zeros (66.9%)
+  ❌ Column 'PolicyType_Basic' has too many zeros (66.8%)
+  ❌ Column 'PolicyType_Comprehensive' has too many zeros (66.7%)
+  ❌ Column 'PolicyType_Premium' has too many zeros (66.5%)
+  ❌ Column 'CustomerFeedback_Average' has too many zeros (68.5%)
+  ❌ Column 'CustomerFeedback_Good' has too many zeros (69.3%)
+  ❌ Column 'CustomerFeedback_Poor' has too many zeros (68.7%)
+  ❌ Column 'CustomerFeedback_missing' has too many zeros (93.5%)
+  ❌ Column 'ExerciseFrequency_Daily' has too many zeros (75.5%)
+  ❌ Column 'ExerciseFrequency_Monthly' has too many zeros (75.0%)
+  ❌ Column 'ExerciseFrequency_Rarely' has too many zeros (75.0%)
+  ❌ Column 'ExerciseFrequency_Weekly' has too many zeros (74.5%)
+  ❌ Column 'PropertyType_Apartment' has too many zeros (66.7%)
+  ❌ Column 'PropertyType_Condo' has too many zeros (66.7%)
+  ❌ Column 'PropertyType_House' has too many zeros (66.6%)
+
+==== VALIDATION CHECKPOINT 2 ====
+Stage: data_processing
+Data: X_test
+
+Statistics:
+  id:
+    count: 800000
+    missing: 0
+    min: 1.0000008333340278
+    max: 1.6666672222226853
+    mean: 1.3333340277783563
+    median: 1.3333340277783563
+    std: 0.1924502501049333
+    zero_count: 0
+    zero_percent: 0.0
+    negative_count: 0
+    negative_percent: 0.0
+  Age:
+    count: 800000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.5029197826086957
+    median: 0.5
+    std: 0.29199444201916774
+    zero_count: 16151
+    zero_percent: 2.018875
+    negative_count: 0
+    negative_percent: 0.0
+  AnnualIncome:
+    count: 800000
+    missing: 0
+    min: 6.666844449185311e-06
+    max: 1.0
+    mean: 0.21647873972472598
+    median: 0.1594042507800208
+    std: 0.21093438638825854
+    zero_count: 0
+    zero_percent: 0.0
+    negative_count: 0
+    negative_percent: 0.0
+  NumberofDependents:
+    count: 800000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.4564146875
+    median: 0.5
+    std: 0.36701063323734545
+    zero_count: 217932
+    zero_percent: 27.2415
+    negative_count: 0
+    negative_percent: 0.0
+  HealthScore:
+    count: 800000
+    missing: 0
+    min: -0.006419466549469465
+    max: 0.9821190744249386
+    mean: 0.4143140688825253
+    median: 0.4143284248240172
+    std: 0.2075637743250899
+    zero_count: 0
+    zero_percent: 0.0
+    negative_count: 1
+    negative_percent: 0.000125
+  PreviousClaims:
+    count: 800000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.07776569444444445
+    median: 0.0
+    std: 0.10459805419037586
+    zero_count: 445608
+    zero_percent: 55.701
+    negative_count: 0
+    negative_percent: 0.0
+  VehicleAge:
+    count: 800000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.5037838157894736
+    median: 0.5263157894736842
+    std: 0.3037992642969677
+    zero_count: 40617
+    zero_percent: 5.077125
+    negative_count: 0
+    negative_percent: 0.0
+  CreditScore:
+    count: 800000
+    missing: 0
+    min: 0.0
+    max: 0.9999999999999999
+    mean: 0.5339604098360656
+    median: 0.5373406193078324
+    std: 0.25733579574760373
+    zero_count: 603
+    zero_percent: 0.075375
+    negative_count: 0
+    negative_percent: 0.0
+  InsuranceDuration:
+    count: 800000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.50236859375
+    median: 0.5
+    std: 0.32421924716524386
+    zero_count: 89460
+    zero_percent: 11.1825
+    negative_count: 0
+    negative_percent: 0.0
+  SmokingStatus:
+    count: 800000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.50232375
+    median: 1.0
+    std: 0.4999946001567792
+    zero_count: 398141
+    zero_percent: 49.767625
+    negative_count: 0
+    negative_percent: 0.0
+  PolicyStartDate_Year:
+    count: 800000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.5242280000000115
+    median: 0.6000000000000227
+    std: 0.29532203442344374
+    zero_count: 56485
+    zero_percent: 7.060625
+    negative_count: 0
+    negative_percent: 0.0
+  PolicyStartDate_Month:
+    count: 800000
+    missing: 0
+    min: 0.0
+    max: 0.9999999999999999
+    mean: 0.4991620454545455
+    median: 0.4545454545454545
+    std: 0.31195282724671863
+    zero_count: 65876
+    zero_percent: 8.2345
+    negative_count: 0
+    negative_percent: 0.0
+  PolicyStartDate_Day:
+    count: 800000
+    missing: 0
+    min: 0.0
+    max: 0.9999999999999999
+    mean: 0.4905659583333336
+    median: 0.5
+    std: 0.29347294541603813
+    zero_count: 25441
+    zero_percent: 3.180125
+    negative_count: 0
+    negative_percent: 0.0
+  PolicyStartDate_DayOfWeek:
+    count: 800000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.4992795833333333
+    median: 0.5
+    std: 0.3336141032521186
+    zero_count: 114696
+    zero_percent: 14.337
+    negative_count: 0
+    negative_percent: 0.0
+  Age_HealthScore_Interaction:
+    count: 800000
+    missing: 0
+    min: 5.991988318092452e-05
+    max: 0.9693255373536533
+    mean: 0.27826314817351244
+    median: 0.2465599722323318
+    std: 0.1692152692744678
+    zero_count: 0
+    zero_percent: 0.0
+    negative_count: 0
+    negative_percent: 0.0
+  AnnualIncome_CreditScore_Interaction:
+    count: 800000
+    missing: 0
+    min: 9.442194789079312e-07
+    max: 0.9996338316860794
+    mean: 0.14509061331258896
+    median: 0.10827234147609327
+    std: 0.14102620927302084
+    zero_count: 0
+    zero_percent: 0.0
+    negative_count: 0
+    negative_percent: 0.0
+  AnnualIncome_NumberofDependents_Interaction:
+    count: 800000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.09864804076498196
+    median: 0.03994079881597632
+    std: 0.146463942227977
+    zero_count: 217932
+    zero_percent: 27.2415
+    negative_count: 0
+    negative_percent: 0.0
+  HealthScore_SmokingStatus_Interaction:
+    count: 800000
+    missing: 0
+    min: 0.0
+    max: 0.9915294025480664
+    mean: 0.21998706899691217
+    median: 0.06487172593302853
+    std: 0.2616914993837432
+    zero_count: 398141
+    zero_percent: 49.767625
+    negative_count: 0
+    negative_percent: 0.0
+  Age_PreviousClaims_Interaction:
+    count: 800000
+    missing: 0
+    min: 0.0
+    max: 0.9821428571428571
+    mean: 0.05709207589285713
+    median: 0.0
+    std: 0.08283156028031868
+    zero_count: 445608
+    zero_percent: 55.701
+    negative_count: 0
+    negative_percent: 0.0
+  InsuranceDuration_PreviousClaims_Interaction:
+    count: 800000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.04340734567901236
+    median: 0.0
+    std: 0.06950576076010447
+    zero_count: 445608
+    zero_percent: 55.701
+    negative_count: 0
+    negative_percent: 0.0
+  IncomePerDependent:
+    count: 800000
+    missing: 0
+    min: 6.666817781203037e-07
+    max: 1.0
+    mean: 0.10952355628491463
+    median: 0.0584626584869257
+    std: 0.14406783080613117
+    zero_count: 0
+    zero_percent: 0.0
+    negative_count: 0
+    negative_percent: 0.0
+  HealthScoreToAgeRatio:
+    count: 800000
+    missing: 0
+    min: 6.310753775061288e-05
+    max: 0.9541998826751735
+    mean: 0.2090912772546105
+    median: 0.17869892074125215
+    std: 0.13754715881684576
+    zero_count: 0
+    zero_percent: 0.0
+    negative_count: 0
+    negative_percent: 0.0
+  ClaimsPerYear:
+    count: 800000
+    missing: 0
+    min: 0.0
+    max: 1.125
+    mean: 0.028661515023360493
+    median: 0.0
+    std: 0.05485935708234614
+    zero_count: 445608
+    zero_percent: 55.701
+    negative_count: 0
+    negative_percent: 0.0
+  InsuranceRiskScore:
+    count: 800000
+    missing: 0
+    min: -2.992621573663503
+    max: 5.074317111282167
+    mean: 0.00010952505170061698
+    median: 0.059437250856391274
+    std: 1.0000212972891176
+    zero_count: 0
+    zero_percent: 0.0
+    negative_count: 380759
+    negative_percent: 47.594875
+  Gender_Female:
+    count: 800000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.49863875
+    median: 0.0
+    std: 0.49999814699500383
+    zero_count: 401089
+    zero_percent: 50.136125
+    negative_count: 0
+    negative_percent: 0.0
+  Gender_Male:
+    count: 800000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.50136125
+    median: 1.0
+    std: 0.49999814699500383
+    zero_count: 398911
+    zero_percent: 49.863875
+    negative_count: 0
+    negative_percent: 0.0
+  MaritalStatus_Divorced:
+    count: 800000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.32723375
+    median: 0.0
+    std: 0.4692033917832836
+    zero_count: 538213
+    zero_percent: 67.276625
+    negative_count: 0
+    negative_percent: 0.0
+  MaritalStatus_Married:
+    count: 800000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.327715
+    median: 0.0
+    std: 0.46938031357844573
+    zero_count: 537828
+    zero_percent: 67.2285
+    negative_count: 0
+    negative_percent: 0.0
+  MaritalStatus_Single:
+    count: 800000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.32963125
+    median: 0.0
+    std: 0.47007923696270343
+    zero_count: 536295
+    zero_percent: 67.036875
+    negative_count: 0
+    negative_percent: 0.0
+  MaritalStatus_missing:
+    count: 800000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.01542
+    median: 0.0
+    std: 0.12321616614714158
+    zero_count: 787664
+    zero_percent: 98.458
+    negative_count: 0
+    negative_percent: 0.0
+  EducationLevel_Bachelor's:
+    count: 800000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.25277875
+    median: 0.0
+    std: 0.43460516972125113
+    zero_count: 597777
+    zero_percent: 74.722125
+    negative_count: 0
+    negative_percent: 0.0
+  EducationLevel_High School:
+    count: 800000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.24094625
+    median: 0.0
+    std: 0.4276577540638513
+    zero_count: 607243
+    zero_percent: 75.905375
+    negative_count: 0
+    negative_percent: 0.0
+  EducationLevel_Master's:
+    count: 800000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.25319
+    median: 0.0
+    std: 0.4348388481955125
+    zero_count: 597448
+    zero_percent: 74.681
+    negative_count: 0
+    negative_percent: 0.0
+  EducationLevel_PhD:
+    count: 800000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.253085
+    median: 0.0
+    std: 0.43477923452598327
+    zero_count: 597532
+    zero_percent: 74.6915
+    negative_count: 0
+    negative_percent: 0.0
+  Occupation_Employed:
+    count: 800000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.2357175
+    median: 0.0
+    std: 0.4244464161631596
+    zero_count: 611426
+    zero_percent: 76.42825
+    negative_count: 0
+    negative_percent: 0.0
+  Occupation_Self-Employed:
+    count: 800000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.23498875
+    median: 0.0
+    std: 0.4239917892759688
+    zero_count: 612009
+    zero_percent: 76.501125
+    negative_count: 0
+    negative_percent: 0.0
+  Occupation_Unemployed:
+    count: 800000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.2303875
+    median: 0.0
+    std: 0.4210808709069435
+    zero_count: 615690
+    zero_percent: 76.96125
+    negative_count: 0
+    negative_percent: 0.0
+  Occupation_missing:
+    count: 800000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.29890625
+    median: 0.0
+    std: 0.45777866235871845
+    zero_count: 560875
+    zero_percent: 70.109375
+    negative_count: 0
+    negative_percent: 0.0
+  Location_Rural:
+    count: 800000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.3339
+    median: 0.0
+    std: 0.4716044847115006
+    zero_count: 532880
+    zero_percent: 66.61
+    negative_count: 0
+    negative_percent: 0.0
+  Location_Suburban:
+    count: 800000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.3339875
+    median: 0.0
+    std: 0.4716352932550213
+    zero_count: 532810
+    zero_percent: 66.60125
+    negative_count: 0
+    negative_percent: 0.0
+  Location_Urban:
+    count: 800000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.3321125
+    median: 0.0
+    std: 0.4709711109439196
+    zero_count: 534310
+    zero_percent: 66.78875
+    negative_count: 0
+    negative_percent: 0.0
+  PolicyType_Basic:
+    count: 800000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.33268625
+    median: 0.0
+    std: 0.4711752424108651
+    zero_count: 533851
+    zero_percent: 66.731375
+    negative_count: 0
+    negative_percent: 0.0
+  PolicyType_Comprehensive:
+    count: 800000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.3327775
+    median: 0.0
+    std: 0.47120763522437753
+    zero_count: 533778
+    zero_percent: 66.72225
+    negative_count: 0
+    negative_percent: 0.0
+  PolicyType_Premium:
+    count: 800000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.33453625
+    median: 0.0
+    std: 0.47182809097799316
+    zero_count: 532371
+    zero_percent: 66.546375
+    negative_count: 0
+    negative_percent: 0.0
+  CustomerFeedback_Average:
+    count: 800000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.31402125
+    median: 0.0
+    std: 0.4641248803376496
+    zero_count: 548783
+    zero_percent: 68.597875
+    negative_count: 0
+    negative_percent: 0.0
+  CustomerFeedback_Good:
+    count: 800000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.30759125
+    median: 0.0
+    std: 0.4614963411809866
+    zero_count: 553927
+    zero_percent: 69.240875
+    negative_count: 0
+    negative_percent: 0.0
+  CustomerFeedback_Poor:
+    count: 800000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.3130425
+    median: 0.0
+    std: 0.4637314882491268
+    zero_count: 549566
+    zero_percent: 68.69575
+    negative_count: 0
+    negative_percent: 0.0
+  CustomerFeedback_missing:
+    count: 800000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.065345
+    median: 0.0
+    std: 0.2471336297936807
+    zero_count: 747724
+    zero_percent: 93.4655
+    negative_count: 0
+    negative_percent: 0.0
+  ExerciseFrequency_Daily:
+    count: 800000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.245715
+    median: 0.0
+    std: 0.43051032365670394
+    zero_count: 603428
+    zero_percent: 75.4285
+    negative_count: 0
+    negative_percent: 0.0
+  ExerciseFrequency_Monthly:
+    count: 800000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.248
+    median: 0.0
+    std: 0.43185182644050496
+    zero_count: 601600
+    zero_percent: 75.2
+    negative_count: 0
+    negative_percent: 0.0
+  ExerciseFrequency_Rarely:
+    count: 800000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.2506425
+    median: 0.0
+    std: 0.43338301442690375
+    zero_count: 599486
+    zero_percent: 74.93575
+    negative_count: 0
+    negative_percent: 0.0
+  ExerciseFrequency_Weekly:
+    count: 800000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.2556425
+    median: 0.0
+    std: 0.43622174658509405
+    zero_count: 595486
+    zero_percent: 74.43575
+    negative_count: 0
+    negative_percent: 0.0
+  PropertyType_Apartment:
+    count: 800000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.332555
+    median: 0.0
+    std: 0.471128615109505
+    zero_count: 533956
+    zero_percent: 66.7445
+    negative_count: 0
+    negative_percent: 0.0
+  PropertyType_Condo:
+    count: 800000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.33350625
+    median: 0.0
+    std: 0.47146562039128315
+    zero_count: 533195
+    zero_percent: 66.649375
+    negative_count: 0
+    negative_percent: 0.0
+  PropertyType_House:
+    count: 800000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.33393875
+    median: 0.0
+    std: 0.47161813074609155
+    zero_count: 532849
+    zero_percent: 66.606125
+    negative_count: 0
+    negative_percent: 0.0
+
+WARNINGS (36):
+  ⚠️ Column 'NumberofDependents' has 27.2% zero values
+  ⚠️ Column 'HealthScore' has 0.0% negative values
+  ⚠️ Column 'SmokingStatus' has 49.8% zero values
+  ⚠️ Column 'AnnualIncome_NumberofDependents_Interaction' has 27.2% zero values
+  ⚠️ Column 'InsuranceRiskScore' has 47.6% negative values
+  ⚠️ Column 'Gender_Female' has 50.1% zero values
+  ⚠️ Column 'Gender_Male' has 49.9% zero values
+  ⚠️ Column 'MaritalStatus_Divorced' has 67.3% zero values
+  ⚠️ Column 'MaritalStatus_Married' has 67.2% zero values
+  ⚠️ Column 'MaritalStatus_Single' has 67.0% zero values
+  ⚠️ Column 'MaritalStatus_missing' has 98.5% zero values
+  ⚠️ Column 'EducationLevel_Bachelor's' has 74.7% zero values
+  ⚠️ Column 'EducationLevel_High School' has 75.9% zero values
+  ⚠️ Column 'EducationLevel_Master's' has 74.7% zero values
+  ⚠️ Column 'EducationLevel_PhD' has 74.7% zero values
+  ⚠️ Column 'Occupation_Employed' has 76.4% zero values
+  ⚠️ Column 'Occupation_Self-Employed' has 76.5% zero values
+  ⚠️ Column 'Occupation_Unemployed' has 77.0% zero values
+  ⚠️ Column 'Occupation_missing' has 70.1% zero values
+  ⚠️ Column 'Location_Rural' has 66.6% zero values
+  ⚠️ Column 'Location_Suburban' has 66.6% zero values
+  ⚠️ Column 'Location_Urban' has 66.8% zero values
+  ⚠️ Column 'PolicyType_Basic' has 66.7% zero values
+  ⚠️ Column 'PolicyType_Comprehensive' has 66.7% zero values
+  ⚠️ Column 'PolicyType_Premium' has 66.5% zero values
+  ⚠️ Column 'CustomerFeedback_Average' has 68.6% zero values
+  ⚠️ Column 'CustomerFeedback_Good' has 69.2% zero values
+  ⚠️ Column 'CustomerFeedback_Poor' has 68.7% zero values
+  ⚠️ Column 'CustomerFeedback_missing' has 93.5% zero values
+  ⚠️ Column 'ExerciseFrequency_Daily' has 75.4% zero values
+  ⚠️ Column 'ExerciseFrequency_Monthly' has 75.2% zero values
+  ⚠️ Column 'ExerciseFrequency_Rarely' has 74.9% zero values
+  ⚠️ Column 'ExerciseFrequency_Weekly' has 74.4% zero values
+  ⚠️ Column 'PropertyType_Apartment' has 66.7% zero values
+  ⚠️ Column 'PropertyType_Condo' has 66.6% zero values
+  ⚠️ Column 'PropertyType_House' has 66.6% zero values
+
+ERRORS (33):
+  ❌ Column 'SmokingStatus' has too many zeros (49.8%)
+  ❌ Column 'InsuranceRiskScore' has too many negative values (47.6%)
+  ❌ Column 'Gender_Female' has too many zeros (50.1%)
+  ❌ Column 'Gender_Male' has too many zeros (49.9%)
+  ❌ Column 'MaritalStatus_Divorced' has too many zeros (67.3%)
+  ❌ Column 'MaritalStatus_Married' has too many zeros (67.2%)
+  ❌ Column 'MaritalStatus_Single' has too many zeros (67.0%)
+  ❌ Column 'MaritalStatus_missing' has too many zeros (98.5%)
+  ❌ Column 'EducationLevel_Bachelor's' has too many zeros (74.7%)
+  ❌ Column 'EducationLevel_High School' has too many zeros (75.9%)
+  ❌ Column 'EducationLevel_Master's' has too many zeros (74.7%)
+  ❌ Column 'EducationLevel_PhD' has too many zeros (74.7%)
+  ❌ Column 'Occupation_Employed' has too many zeros (76.4%)
+  ❌ Column 'Occupation_Self-Employed' has too many zeros (76.5%)
+  ❌ Column 'Occupation_Unemployed' has too many zeros (77.0%)
+  ❌ Column 'Occupation_missing' has too many zeros (70.1%)
+  ❌ Column 'Location_Rural' has too many zeros (66.6%)
+  ❌ Column 'Location_Suburban' has too many zeros (66.6%)
+  ❌ Column 'Location_Urban' has too many zeros (66.8%)
+  ❌ Column 'PolicyType_Basic' has too many zeros (66.7%)
+  ❌ Column 'PolicyType_Comprehensive' has too many zeros (66.7%)
+  ❌ Column 'PolicyType_Premium' has too many zeros (66.5%)
+  ❌ Column 'CustomerFeedback_Average' has too many zeros (68.6%)
+  ❌ Column 'CustomerFeedback_Good' has too many zeros (69.2%)
+  ❌ Column 'CustomerFeedback_Poor' has too many zeros (68.7%)
+  ❌ Column 'CustomerFeedback_missing' has too many zeros (93.5%)
+  ❌ Column 'ExerciseFrequency_Daily' has too many zeros (75.4%)
+  ❌ Column 'ExerciseFrequency_Monthly' has too many zeros (75.2%)
+  ❌ Column 'ExerciseFrequency_Rarely' has too many zeros (74.9%)
+  ❌ Column 'ExerciseFrequency_Weekly' has too many zeros (74.4%)
+  ❌ Column 'PropertyType_Apartment' has too many zeros (66.7%)
+  ❌ Column 'PropertyType_Condo' has too many zeros (66.6%)
+  ❌ Column 'PropertyType_House' has too many zeros (66.6%)
+
+==== VALIDATION CHECKPOINT 3 ====
+Stage: data_processing
+Data: y_train
+
+Statistics:
+  values:
+    count: 1200000
+    missing: 0
+    min: 20.0
+    max: 4999.0
+    mean: 1102.5448216666666
+    median: 872.0
+    std: 864.9984983364719
+    zero_count: 0
+    zero_percent: 0.0
+    negative_count: 0
+    negative_percent: 0.0
+
+==== VALIDATION CHECKPOINT 4 ====
+Stage: data_processing
+Data: X_train
+
+Statistics:
+  id:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.5
+    median: 0.5
+    std: 0.28867537515752534
+    zero_count: 1
+    zero_percent: 8.333333333333333e-05
+    negative_count: 0
+    negative_percent: 0.0
+  Age:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.50311509057971
+    median: 0.5
+    std: 0.29204379916541645
+    zero_count: 24488
+    zero_percent: 2.0406666666666666
+    negative_count: 0
+    negative_percent: 0.0
+  AnnualIncome:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.216094496281012
+    median: 0.1594042507800208
+    std: 0.21077622258454864
+    zero_count: 1
+    zero_percent: 8.333333333333333e-05
+    negative_count: 0
+    negative_percent: 0.0
+  NumberofDependents:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.45655979166666666
+    median: 0.5
+    std: 0.36748466573444477
+    zero_count: 327796
+    zero_percent: 27.316333333333333
+    negative_count: 0
+    negative_percent: 0.0
+  HealthScore:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0000000000000002
+    mean: 0.4143284248240171
+    median: 0.4143284248240172
+    std: 0.20751464756232965
+    zero_count: 1
+    zero_percent: 8.333333333333333e-05
+    negative_count: 0
+    negative_percent: 0.0
+  PreviousClaims:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.07761287037037033
+    median: 0.0
+    std: 0.10455125334061909
+    zero_count: 669462
+    zero_percent: 55.7885
+    negative_count: 0
+    negative_percent: 0.0
+  VehicleAge:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.503678464912281
+    median: 0.5263157894736842
+    std: 0.3040090479139155
+    zero_count: 61615
+    zero_percent: 5.1345833333333335
+    negative_count: 0
+    negative_percent: 0.0
+  CreditScore:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 0.9999999999999999
+    mean: 0.5339942547055252
+    median: 0.5373406193078324
+    std: 0.2570200320585057
+    zero_count: 856
+    zero_percent: 0.07133333333333333
+    negative_count: 0
+    negative_percent: 0.0
+  InsuranceDuration:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.5022773958333333
+    median: 0.5
+    std: 0.324291147526496
+    zero_count: 135072
+    zero_percent: 11.256
+    negative_count: 0
+    negative_percent: 0.0
+  SmokingStatus:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.5015608333333333
+    median: 1.0
+    std: 0.49999756379337035
+    zero_count: 598127
+    zero_percent: 49.843916666666665
+    negative_count: 0
+    negative_percent: 0.0
+  PolicyStartDate_Year:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.5241740000000116
+    median: 0.6000000000000227
+    std: 0.29520154311475927
+    zero_count: 84289
+    zero_percent: 7.0240833333333335
+    negative_count: 0
+    negative_percent: 0.0
+  PolicyStartDate_Month:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 0.9999999999999999
+    mean: 0.49933371212121214
+    median: 0.4545454545454545
+    std: 0.31206251514838823
+    zero_count: 98535
+    zero_percent: 8.21125
+    negative_count: 0
+    negative_percent: 0.0
+  PolicyStartDate_Day:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 0.9999999999999999
+    mean: 0.4902059722222222
+    median: 0.5
+    std: 0.2937240960705824
+    zero_count: 38826
+    zero_percent: 3.2355
+    negative_count: 0
+    negative_percent: 0.0
+  PolicyStartDate_DayOfWeek:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.49902111111111097
+    median: 0.5
+    std: 0.33371438652917446
+    zero_count: 172495
+    zero_percent: 14.374583333333334
+    negative_count: 0
+    negative_percent: 0.0
+  Age_HealthScore_Interaction:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 0.9999999999999999
+    mean: 0.27844071028975903
+    median: 0.24687973382610465
+    std: 0.16934293116564947
+    zero_count: 1
+    zero_percent: 8.333333333333333e-05
+    negative_count: 0
+    negative_percent: 0.0
+  AnnualIncome_CreditScore_Interaction:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.1449222764627659
+    median: 0.10799218368820562
+    std: 0.14119254001796774
+    zero_count: 1
+    zero_percent: 8.333333333333333e-05
+    negative_count: 0
+    negative_percent: 0.0
+  AnnualIncome_NumberofDependents_Interaction:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.09857451591254048
+    median: 0.039852463715940985
+    std: 0.14665032969990657
+    zero_count: 327796
+    zero_percent: 27.316333333333333
+    negative_count: 0
+    negative_percent: 0.0
+  HealthScore_SmokingStatus_Interaction:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.21958342200867614
+    median: 0.060593327888146475
+    std: 0.2614824899025174
+    zero_count: 598127
+    zero_percent: 49.843916666666665
+    negative_count: 0
+    negative_percent: 0.0
+  Age_PreviousClaims_Interaction:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.05704083333333332
+    median: 0.0
+    std: 0.08296594444310089
+    zero_count: 669462
+    zero_percent: 55.7885
+    negative_count: 0
+    negative_percent: 0.0
+  InsuranceDuration_PreviousClaims_Interaction:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.04331063786008231
+    median: 0.0
+    std: 0.06937874904875242
+    zero_count: 669462
+    zero_percent: 55.7885
+    negative_count: 0
+    negative_percent: 0.0
+  IncomePerDependent:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.10937757449511448
+    median: 0.05844399139713833
+    std: 0.14402019452256012
+    zero_count: 1
+    zero_percent: 8.333333333333333e-05
+    negative_count: 0
+    negative_percent: 0.0
+  HealthScoreToAgeRatio:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.20896394153450137
+    median: 0.17887419011591238
+    std: 0.1373532022653272
+    zero_count: 1
+    zero_percent: 8.333333333333333e-05
+    negative_count: 0
+    negative_percent: 0.0
+  ClaimsPerYear:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.028630139025669493
+    median: 0.0
+    std: 0.05494190463238482
+    zero_count: 669462
+    zero_percent: 55.7885
+    negative_count: 0
+    negative_percent: 0.0
+  InsuranceRiskScore:
+    count: 1200000
+    missing: 0
+    min: -3.1695411576732493
+    max: 4.164833257822434
+    mean: -3.165349464021953e-16
+    median: 0.059388714744921106
+    std: 1.0000000000000002
+    zero_count: 0
+    zero_percent: 0.0
+    negative_count: 570956
+    negative_percent: 47.57966666666667
+  Gender_Female:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.4978575
+    median: 0.0
+    std: 0.49999540967267886
+    zero_count: 602571
+    zero_percent: 50.21425
+    negative_count: 0
+    negative_percent: 0.0
+  Gender_Male:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.5021425
+    median: 1.0
+    std: 0.49999540967267886
+    zero_count: 597429
+    zero_percent: 49.78575
+    negative_count: 0
+    negative_percent: 0.0
+  MaritalStatus_Divorced:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.32647
+    median: 0.0
+    std: 0.4689214636802198
+    zero_count: 808236
+    zero_percent: 67.353
+    negative_count: 0
+    negative_percent: 0.0
+  MaritalStatus_Married:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.32859666666666665
+    median: 0.0
+    std: 0.46970298841099795
+    zero_count: 805684
+    zero_percent: 67.14033333333333
+    negative_count: 0
+    negative_percent: 0.0
+  MaritalStatus_Single:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.3294925
+    median: 0.0
+    std: 0.4700289272414517
+    zero_count: 804609
+    zero_percent: 67.05075
+    negative_count: 0
+    negative_percent: 0.0
+  MaritalStatus_missing:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.015440833333333334
+    median: 0.0
+    std: 0.1232980697306554
+    zero_count: 1181471
+    zero_percent: 98.45591666666667
+    negative_count: 0
+    negative_percent: 0.0
+  EducationLevel_Bachelor's:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.252695
+    median: 0.0
+    std: 0.43455751860369424
+    zero_count: 896766
+    zero_percent: 74.7305
+    negative_count: 0
+    negative_percent: 0.0
+  EducationLevel_High School:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.24120083333333334
+    median: 0.0
+    std: 0.42781186441313074
+    zero_count: 910559
+    zero_percent: 75.87991666666667
+    negative_count: 0
+    negative_percent: 0.0
+  EducationLevel_Master's:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.2531816666666667
+    median: 0.0
+    std: 0.43483411817675416
+    zero_count: 896182
+    zero_percent: 74.68183333333333
+    negative_count: 0
+    negative_percent: 0.0
+  EducationLevel_PhD:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.2529225
+    median: 0.0
+    std: 0.43468690915847696
+    zero_count: 896493
+    zero_percent: 74.70775
+    negative_count: 0
+    negative_percent: 0.0
+  Occupation_Employed:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.235625
+    median: 0.0
+    std: 0.42438880684461977
+    zero_count: 917250
+    zero_percent: 76.4375
+    negative_count: 0
+    negative_percent: 0.0
+  Occupation_Self-Employed:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.2355375
+    median: 0.0
+    std: 0.4243342857862773
+    zero_count: 917355
+    zero_percent: 76.44625
+    negative_count: 0
+    negative_percent: 0.0
+  Occupation_Unemployed:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.23044166666666666
+    median: 0.0
+    std: 0.42111554819378927
+    zero_count: 923470
+    zero_percent: 76.95583333333333
+    negative_count: 0
+    negative_percent: 0.0
+  Occupation_missing:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.29839583333333336
+    median: 0.0
+    std: 0.4575541060712261
+    zero_count: 841925
+    zero_percent: 70.16041666666666
+    negative_count: 0
+    negative_percent: 0.0
+  Location_Rural:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.3341225
+    median: 0.0
+    std: 0.4716827906482808
+    zero_count: 799053
+    zero_percent: 66.58775
+    negative_count: 0
+    negative_percent: 0.0
+  Location_Suburban:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.33461833333333335
+    median: 0.0
+    std: 0.47185686847873215
+    zero_count: 798458
+    zero_percent: 66.53816666666667
+    negative_count: 0
+    negative_percent: 0.0
+  Location_Urban:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.33125916666666666
+    median: 0.0
+    std: 0.47066605057723493
+    zero_count: 802489
+    zero_percent: 66.87408333333333
+    negative_count: 0
+    negative_percent: 0.0
+  PolicyType_Basic:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.33212833333333336
+    median: 0.0
+    std: 0.47097675476668216
+    zero_count: 801446
+    zero_percent: 66.78716666666666
+    negative_count: 0
+    negative_percent: 0.0
+  PolicyType_Comprehensive:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.333
+    median: 0.0
+    std: 0.4712865370451399
+    zero_count: 800400
+    zero_percent: 66.7
+    negative_count: 0
+    negative_percent: 0.0
+  PolicyType_Premium:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.3348716666666667
+    median: 0.0
+    std: 0.47194558323026575
+    zero_count: 798154
+    zero_percent: 66.51283333333333
+    negative_count: 0
+    negative_percent: 0.0
+  CustomerFeedback_Average:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.3149208333333333
+    median: 0.0
+    std: 0.46448433995773447
+    zero_count: 822095
+    zero_percent: 68.50791666666667
+    negative_count: 0
+    negative_percent: 0.0
+  CustomerFeedback_Good:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.30729416666666665
+    median: 0.0
+    std: 0.4613723678324327
+    zero_count: 831247
+    zero_percent: 69.27058333333333
+    negative_count: 0
+    negative_percent: 0.0
+  CustomerFeedback_Poor:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.31293166666666666
+    median: 0.0
+    std: 0.46368678939979385
+    zero_count: 824482
+    zero_percent: 68.70683333333334
+    negative_count: 0
+    negative_percent: 0.0
+  CustomerFeedback_missing:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.06485333333333333
+    median: 0.0
+    std: 0.2462668846777595
+    zero_count: 1122176
+    zero_percent: 93.51466666666667
+    negative_count: 0
+    negative_percent: 0.0
+  ExerciseFrequency_Daily:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.24547583333333334
+    median: 0.0
+    std: 0.43036896795963203
+    zero_count: 905429
+    zero_percent: 75.45241666666666
+    negative_count: 0
+    negative_percent: 0.0
+  ExerciseFrequency_Monthly:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.24985833333333332
+    median: 0.0
+    std: 0.4329308796993145
+    zero_count: 900170
+    zero_percent: 75.01416666666667
+    negative_count: 0
+    negative_percent: 0.0
+  ExerciseFrequency_Rarely:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.24951666666666666
+    median: 0.0
+    std: 0.43273328936219163
+    zero_count: 900580
+    zero_percent: 75.04833333333333
+    negative_count: 0
+    negative_percent: 0.0
+  ExerciseFrequency_Weekly:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.25514916666666665
+    median: 0.0
+    std: 0.43594503026869363
+    zero_count: 893821
+    zero_percent: 74.48508333333334
+    negative_count: 0
+    negative_percent: 0.0
+  PropertyType_Apartment:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.333315
+    median: 0.0
+    std: 0.47139803857780316
+    zero_count: 800022
+    zero_percent: 66.6685
+    negative_count: 0
+    negative_percent: 0.0
+  PropertyType_Condo:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.3330608333333333
+    median: 0.0
+    std: 0.4713080888682465
+    zero_count: 800327
+    zero_percent: 66.69391666666667
+    negative_count: 0
+    negative_percent: 0.0
+  PropertyType_House:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.33362416666666667
+    median: 0.0
+    std: 0.4715072449948558
+    zero_count: 799651
+    zero_percent: 66.63758333333334
+    negative_count: 0
+    negative_percent: 0.0
+
+WARNINGS (35):
+  ⚠️ Column 'NumberofDependents' has 27.3% zero values
+  ⚠️ Column 'SmokingStatus' has 49.8% zero values
+  ⚠️ Column 'AnnualIncome_NumberofDependents_Interaction' has 27.3% zero values
+  ⚠️ Column 'InsuranceRiskScore' has 47.6% negative values
+  ⚠️ Column 'Gender_Female' has 50.2% zero values
+  ⚠️ Column 'Gender_Male' has 49.8% zero values
+  ⚠️ Column 'MaritalStatus_Divorced' has 67.4% zero values
+  ⚠️ Column 'MaritalStatus_Married' has 67.1% zero values
+  ⚠️ Column 'MaritalStatus_Single' has 67.1% zero values
+  ⚠️ Column 'MaritalStatus_missing' has 98.5% zero values
+  ⚠️ Column 'EducationLevel_Bachelor's' has 74.7% zero values
+  ⚠️ Column 'EducationLevel_High School' has 75.9% zero values
+  ⚠️ Column 'EducationLevel_Master's' has 74.7% zero values
+  ⚠️ Column 'EducationLevel_PhD' has 74.7% zero values
+  ⚠️ Column 'Occupation_Employed' has 76.4% zero values
+  ⚠️ Column 'Occupation_Self-Employed' has 76.4% zero values
+  ⚠️ Column 'Occupation_Unemployed' has 77.0% zero values
+  ⚠️ Column 'Occupation_missing' has 70.2% zero values
+  ⚠️ Column 'Location_Rural' has 66.6% zero values
+  ⚠️ Column 'Location_Suburban' has 66.5% zero values
+  ⚠️ Column 'Location_Urban' has 66.9% zero values
+  ⚠️ Column 'PolicyType_Basic' has 66.8% zero values
+  ⚠️ Column 'PolicyType_Comprehensive' has 66.7% zero values
+  ⚠️ Column 'PolicyType_Premium' has 66.5% zero values
+  ⚠️ Column 'CustomerFeedback_Average' has 68.5% zero values
+  ⚠️ Column 'CustomerFeedback_Good' has 69.3% zero values
+  ⚠️ Column 'CustomerFeedback_Poor' has 68.7% zero values
+  ⚠️ Column 'CustomerFeedback_missing' has 93.5% zero values
+  ⚠️ Column 'ExerciseFrequency_Daily' has 75.5% zero values
+  ⚠️ Column 'ExerciseFrequency_Monthly' has 75.0% zero values
+  ⚠️ Column 'ExerciseFrequency_Rarely' has 75.0% zero values
+  ⚠️ Column 'ExerciseFrequency_Weekly' has 74.5% zero values
+  ⚠️ Column 'PropertyType_Apartment' has 66.7% zero values
+  ⚠️ Column 'PropertyType_Condo' has 66.7% zero values
+  ⚠️ Column 'PropertyType_House' has 66.6% zero values
+
+ERRORS (33):
+  ❌ Column 'SmokingStatus' has too many zeros (49.8%)
+  ❌ Column 'InsuranceRiskScore' has too many negative values (47.6%)
+  ❌ Column 'Gender_Female' has too many zeros (50.2%)
+  ❌ Column 'Gender_Male' has too many zeros (49.8%)
+  ❌ Column 'MaritalStatus_Divorced' has too many zeros (67.4%)
+  ❌ Column 'MaritalStatus_Married' has too many zeros (67.1%)
+  ❌ Column 'MaritalStatus_Single' has too many zeros (67.1%)
+  ❌ Column 'MaritalStatus_missing' has too many zeros (98.5%)
+  ❌ Column 'EducationLevel_Bachelor's' has too many zeros (74.7%)
+  ❌ Column 'EducationLevel_High School' has too many zeros (75.9%)
+  ❌ Column 'EducationLevel_Master's' has too many zeros (74.7%)
+  ❌ Column 'EducationLevel_PhD' has too many zeros (74.7%)
+  ❌ Column 'Occupation_Employed' has too many zeros (76.4%)
+  ❌ Column 'Occupation_Self-Employed' has too many zeros (76.4%)
+  ❌ Column 'Occupation_Unemployed' has too many zeros (77.0%)
+  ❌ Column 'Occupation_missing' has too many zeros (70.2%)
+  ❌ Column 'Location_Rural' has too many zeros (66.6%)
+  ❌ Column 'Location_Suburban' has too many zeros (66.5%)
+  ❌ Column 'Location_Urban' has too many zeros (66.9%)
+  ❌ Column 'PolicyType_Basic' has too many zeros (66.8%)
+  ❌ Column 'PolicyType_Comprehensive' has too many zeros (66.7%)
+  ❌ Column 'PolicyType_Premium' has too many zeros (66.5%)
+  ❌ Column 'CustomerFeedback_Average' has too many zeros (68.5%)
+  ❌ Column 'CustomerFeedback_Good' has too many zeros (69.3%)
+  ❌ Column 'CustomerFeedback_Poor' has too many zeros (68.7%)
+  ❌ Column 'CustomerFeedback_missing' has too many zeros (93.5%)
+  ❌ Column 'ExerciseFrequency_Daily' has too many zeros (75.5%)
+  ❌ Column 'ExerciseFrequency_Monthly' has too many zeros (75.0%)
+  ❌ Column 'ExerciseFrequency_Rarely' has too many zeros (75.0%)
+  ❌ Column 'ExerciseFrequency_Weekly' has too many zeros (74.5%)
+  ❌ Column 'PropertyType_Apartment' has too many zeros (66.7%)
+  ❌ Column 'PropertyType_Condo' has too many zeros (66.7%)
+  ❌ Column 'PropertyType_House' has too many zeros (66.6%)
+
+Adjusting validator expectations for feature types...
+
+==== VALIDATION CHECKPOINT 5 ====
+Stage: data_processing_with_domain_knowledge
+Data: X_train
+
+Statistics:
+  id:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.5
+    median: 0.5
+    std: 0.28867537515752534
+    zero_count: 1
+    zero_percent: 8.333333333333333e-05
+    negative_count: 0
+    negative_percent: 0.0
+  Age:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.50311509057971
+    median: 0.5
+    std: 0.29204379916541645
+    zero_count: 24488
+    zero_percent: 2.0406666666666666
+    negative_count: 0
+    negative_percent: 0.0
+  AnnualIncome:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.216094496281012
+    median: 0.1594042507800208
+    std: 0.21077622258454864
+    zero_count: 1
+    zero_percent: 8.333333333333333e-05
+    negative_count: 0
+    negative_percent: 0.0
+  NumberofDependents:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.45655979166666666
+    median: 0.5
+    std: 0.36748466573444477
+    zero_count: 327796
+    zero_percent: 27.316333333333333
+    negative_count: 0
+    negative_percent: 0.0
+  HealthScore:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0000000000000002
+    mean: 0.4143284248240171
+    median: 0.4143284248240172
+    std: 0.20751464756232965
+    zero_count: 1
+    zero_percent: 8.333333333333333e-05
+    negative_count: 0
+    negative_percent: 0.0
+  PreviousClaims:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.07761287037037033
+    median: 0.0
+    std: 0.10455125334061909
+    zero_count: 669462
+    zero_percent: 55.7885
+    negative_count: 0
+    negative_percent: 0.0
+  VehicleAge:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.503678464912281
+    median: 0.5263157894736842
+    std: 0.3040090479139155
+    zero_count: 61615
+    zero_percent: 5.1345833333333335
+    negative_count: 0
+    negative_percent: 0.0
+  CreditScore:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 0.9999999999999999
+    mean: 0.5339942547055252
+    median: 0.5373406193078324
+    std: 0.2570200320585057
+    zero_count: 856
+    zero_percent: 0.07133333333333333
+    negative_count: 0
+    negative_percent: 0.0
+  InsuranceDuration:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.5022773958333333
+    median: 0.5
+    std: 0.324291147526496
+    zero_count: 135072
+    zero_percent: 11.256
+    negative_count: 0
+    negative_percent: 0.0
+  SmokingStatus:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.5015608333333333
+    median: 1.0
+    std: 0.49999756379337035
+    zero_count: 598127
+    zero_percent: 49.843916666666665
+    negative_count: 0
+    negative_percent: 0.0
+  PolicyStartDate_Year:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.5241740000000116
+    median: 0.6000000000000227
+    std: 0.29520154311475927
+    zero_count: 84289
+    zero_percent: 7.0240833333333335
+    negative_count: 0
+    negative_percent: 0.0
+  PolicyStartDate_Month:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 0.9999999999999999
+    mean: 0.49933371212121214
+    median: 0.4545454545454545
+    std: 0.31206251514838823
+    zero_count: 98535
+    zero_percent: 8.21125
+    negative_count: 0
+    negative_percent: 0.0
+  PolicyStartDate_Day:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 0.9999999999999999
+    mean: 0.4902059722222222
+    median: 0.5
+    std: 0.2937240960705824
+    zero_count: 38826
+    zero_percent: 3.2355
+    negative_count: 0
+    negative_percent: 0.0
+  PolicyStartDate_DayOfWeek:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.49902111111111097
+    median: 0.5
+    std: 0.33371438652917446
+    zero_count: 172495
+    zero_percent: 14.374583333333334
+    negative_count: 0
+    negative_percent: 0.0
+  Age_HealthScore_Interaction:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 0.9999999999999999
+    mean: 0.27844071028975903
+    median: 0.24687973382610465
+    std: 0.16934293116564947
+    zero_count: 1
+    zero_percent: 8.333333333333333e-05
+    negative_count: 0
+    negative_percent: 0.0
+  AnnualIncome_CreditScore_Interaction:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.1449222764627659
+    median: 0.10799218368820562
+    std: 0.14119254001796774
+    zero_count: 1
+    zero_percent: 8.333333333333333e-05
+    negative_count: 0
+    negative_percent: 0.0
+  AnnualIncome_NumberofDependents_Interaction:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.09857451591254048
+    median: 0.039852463715940985
+    std: 0.14665032969990657
+    zero_count: 327796
+    zero_percent: 27.316333333333333
+    negative_count: 0
+    negative_percent: 0.0
+  HealthScore_SmokingStatus_Interaction:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.21958342200867614
+    median: 0.060593327888146475
+    std: 0.2614824899025174
+    zero_count: 598127
+    zero_percent: 49.843916666666665
+    negative_count: 0
+    negative_percent: 0.0
+  Age_PreviousClaims_Interaction:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.05704083333333332
+    median: 0.0
+    std: 0.08296594444310089
+    zero_count: 669462
+    zero_percent: 55.7885
+    negative_count: 0
+    negative_percent: 0.0
+  InsuranceDuration_PreviousClaims_Interaction:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.04331063786008231
+    median: 0.0
+    std: 0.06937874904875242
+    zero_count: 669462
+    zero_percent: 55.7885
+    negative_count: 0
+    negative_percent: 0.0
+  IncomePerDependent:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.10937757449511448
+    median: 0.05844399139713833
+    std: 0.14402019452256012
+    zero_count: 1
+    zero_percent: 8.333333333333333e-05
+    negative_count: 0
+    negative_percent: 0.0
+  HealthScoreToAgeRatio:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.20896394153450137
+    median: 0.17887419011591238
+    std: 0.1373532022653272
+    zero_count: 1
+    zero_percent: 8.333333333333333e-05
+    negative_count: 0
+    negative_percent: 0.0
+  ClaimsPerYear:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.028630139025669493
+    median: 0.0
+    std: 0.05494190463238482
+    zero_count: 669462
+    zero_percent: 55.7885
+    negative_count: 0
+    negative_percent: 0.0
+  InsuranceRiskScore:
+    count: 1200000
+    missing: 0
+    min: -3.1695411576732493
+    max: 4.164833257822434
+    mean: -3.165349464021953e-16
+    median: 0.059388714744921106
+    std: 1.0000000000000002
+    zero_count: 0
+    zero_percent: 0.0
+    negative_count: 570956
+    negative_percent: 47.57966666666667
+  Gender_Female:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.4978575
+    median: 0.0
+    std: 0.49999540967267886
+    zero_count: 602571
+    zero_percent: 50.21425
+    negative_count: 0
+    negative_percent: 0.0
+  Gender_Male:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.5021425
+    median: 1.0
+    std: 0.49999540967267886
+    zero_count: 597429
+    zero_percent: 49.78575
+    negative_count: 0
+    negative_percent: 0.0
+  MaritalStatus_Divorced:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.32647
+    median: 0.0
+    std: 0.4689214636802198
+    zero_count: 808236
+    zero_percent: 67.353
+    negative_count: 0
+    negative_percent: 0.0
+  MaritalStatus_Married:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.32859666666666665
+    median: 0.0
+    std: 0.46970298841099795
+    zero_count: 805684
+    zero_percent: 67.14033333333333
+    negative_count: 0
+    negative_percent: 0.0
+  MaritalStatus_Single:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.3294925
+    median: 0.0
+    std: 0.4700289272414517
+    zero_count: 804609
+    zero_percent: 67.05075
+    negative_count: 0
+    negative_percent: 0.0
+  MaritalStatus_missing:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.015440833333333334
+    median: 0.0
+    std: 0.1232980697306554
+    zero_count: 1181471
+    zero_percent: 98.45591666666667
+    negative_count: 0
+    negative_percent: 0.0
+  EducationLevel_Bachelor's:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.252695
+    median: 0.0
+    std: 0.43455751860369424
+    zero_count: 896766
+    zero_percent: 74.7305
+    negative_count: 0
+    negative_percent: 0.0
+  EducationLevel_High School:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.24120083333333334
+    median: 0.0
+    std: 0.42781186441313074
+    zero_count: 910559
+    zero_percent: 75.87991666666667
+    negative_count: 0
+    negative_percent: 0.0
+  EducationLevel_Master's:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.2531816666666667
+    median: 0.0
+    std: 0.43483411817675416
+    zero_count: 896182
+    zero_percent: 74.68183333333333
+    negative_count: 0
+    negative_percent: 0.0
+  EducationLevel_PhD:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.2529225
+    median: 0.0
+    std: 0.43468690915847696
+    zero_count: 896493
+    zero_percent: 74.70775
+    negative_count: 0
+    negative_percent: 0.0
+  Occupation_Employed:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.235625
+    median: 0.0
+    std: 0.42438880684461977
+    zero_count: 917250
+    zero_percent: 76.4375
+    negative_count: 0
+    negative_percent: 0.0
+  Occupation_Self-Employed:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.2355375
+    median: 0.0
+    std: 0.4243342857862773
+    zero_count: 917355
+    zero_percent: 76.44625
+    negative_count: 0
+    negative_percent: 0.0
+  Occupation_Unemployed:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.23044166666666666
+    median: 0.0
+    std: 0.42111554819378927
+    zero_count: 923470
+    zero_percent: 76.95583333333333
+    negative_count: 0
+    negative_percent: 0.0
+  Occupation_missing:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.29839583333333336
+    median: 0.0
+    std: 0.4575541060712261
+    zero_count: 841925
+    zero_percent: 70.16041666666666
+    negative_count: 0
+    negative_percent: 0.0
+  Location_Rural:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.3341225
+    median: 0.0
+    std: 0.4716827906482808
+    zero_count: 799053
+    zero_percent: 66.58775
+    negative_count: 0
+    negative_percent: 0.0
+  Location_Suburban:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.33461833333333335
+    median: 0.0
+    std: 0.47185686847873215
+    zero_count: 798458
+    zero_percent: 66.53816666666667
+    negative_count: 0
+    negative_percent: 0.0
+  Location_Urban:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.33125916666666666
+    median: 0.0
+    std: 0.47066605057723493
+    zero_count: 802489
+    zero_percent: 66.87408333333333
+    negative_count: 0
+    negative_percent: 0.0
+  PolicyType_Basic:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.33212833333333336
+    median: 0.0
+    std: 0.47097675476668216
+    zero_count: 801446
+    zero_percent: 66.78716666666666
+    negative_count: 0
+    negative_percent: 0.0
+  PolicyType_Comprehensive:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.333
+    median: 0.0
+    std: 0.4712865370451399
+    zero_count: 800400
+    zero_percent: 66.7
+    negative_count: 0
+    negative_percent: 0.0
+  PolicyType_Premium:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.3348716666666667
+    median: 0.0
+    std: 0.47194558323026575
+    zero_count: 798154
+    zero_percent: 66.51283333333333
+    negative_count: 0
+    negative_percent: 0.0
+  CustomerFeedback_Average:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.3149208333333333
+    median: 0.0
+    std: 0.46448433995773447
+    zero_count: 822095
+    zero_percent: 68.50791666666667
+    negative_count: 0
+    negative_percent: 0.0
+  CustomerFeedback_Good:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.30729416666666665
+    median: 0.0
+    std: 0.4613723678324327
+    zero_count: 831247
+    zero_percent: 69.27058333333333
+    negative_count: 0
+    negative_percent: 0.0
+  CustomerFeedback_Poor:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.31293166666666666
+    median: 0.0
+    std: 0.46368678939979385
+    zero_count: 824482
+    zero_percent: 68.70683333333334
+    negative_count: 0
+    negative_percent: 0.0
+  CustomerFeedback_missing:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.06485333333333333
+    median: 0.0
+    std: 0.2462668846777595
+    zero_count: 1122176
+    zero_percent: 93.51466666666667
+    negative_count: 0
+    negative_percent: 0.0
+  ExerciseFrequency_Daily:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.24547583333333334
+    median: 0.0
+    std: 0.43036896795963203
+    zero_count: 905429
+    zero_percent: 75.45241666666666
+    negative_count: 0
+    negative_percent: 0.0
+  ExerciseFrequency_Monthly:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.24985833333333332
+    median: 0.0
+    std: 0.4329308796993145
+    zero_count: 900170
+    zero_percent: 75.01416666666667
+    negative_count: 0
+    negative_percent: 0.0
+  ExerciseFrequency_Rarely:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.24951666666666666
+    median: 0.0
+    std: 0.43273328936219163
+    zero_count: 900580
+    zero_percent: 75.04833333333333
+    negative_count: 0
+    negative_percent: 0.0
+  ExerciseFrequency_Weekly:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.25514916666666665
+    median: 0.0
+    std: 0.43594503026869363
+    zero_count: 893821
+    zero_percent: 74.48508333333334
+    negative_count: 0
+    negative_percent: 0.0
+  PropertyType_Apartment:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.333315
+    median: 0.0
+    std: 0.47139803857780316
+    zero_count: 800022
+    zero_percent: 66.6685
+    negative_count: 0
+    negative_percent: 0.0
+  PropertyType_Condo:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.3330608333333333
+    median: 0.0
+    std: 0.4713080888682465
+    zero_count: 800327
+    zero_percent: 66.69391666666667
+    negative_count: 0
+    negative_percent: 0.0
+  PropertyType_House:
+    count: 1200000
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.33362416666666667
+    median: 0.0
+    std: 0.4715072449948558
+    zero_count: 799651
+    zero_percent: 66.63758333333334
+    negative_count: 0
+    negative_percent: 0.0
+
+WARNINGS (35):
+  ⚠️ Column 'NumberofDependents' has 27.3% zero values
+  ⚠️ Column 'SmokingStatus' has 49.8% zero values
+  ⚠️ Column 'AnnualIncome_NumberofDependents_Interaction' has 27.3% zero values
+  ⚠️ Column 'InsuranceRiskScore' has 47.6% negative values
+  ⚠️ Column 'Gender_Female' has 50.2% zero values
+  ⚠️ Column 'Gender_Male' has 49.8% zero values
+  ⚠️ Column 'MaritalStatus_Divorced' has 67.4% zero values
+  ⚠️ Column 'MaritalStatus_Married' has 67.1% zero values
+  ⚠️ Column 'MaritalStatus_Single' has 67.1% zero values
+  ⚠️ Column 'MaritalStatus_missing' has 98.5% zero values
+  ⚠️ Column 'EducationLevel_Bachelor's' has 74.7% zero values
+  ⚠️ Column 'EducationLevel_High School' has 75.9% zero values
+  ⚠️ Column 'EducationLevel_Master's' has 74.7% zero values
+  ⚠️ Column 'EducationLevel_PhD' has 74.7% zero values
+  ⚠️ Column 'Occupation_Employed' has 76.4% zero values
+  ⚠️ Column 'Occupation_Self-Employed' has 76.4% zero values
+  ⚠️ Column 'Occupation_Unemployed' has 77.0% zero values
+  ⚠️ Column 'Occupation_missing' has 70.2% zero values
+  ⚠️ Column 'Location_Rural' has 66.6% zero values
+  ⚠️ Column 'Location_Suburban' has 66.5% zero values
+  ⚠️ Column 'Location_Urban' has 66.9% zero values
+  ⚠️ Column 'PolicyType_Basic' has 66.8% zero values
+  ⚠️ Column 'PolicyType_Comprehensive' has 66.7% zero values
+  ⚠️ Column 'PolicyType_Premium' has 66.5% zero values
+  ⚠️ Column 'CustomerFeedback_Average' has 68.5% zero values
+  ⚠️ Column 'CustomerFeedback_Good' has 69.3% zero values
+  ⚠️ Column 'CustomerFeedback_Poor' has 68.7% zero values
+  ⚠️ Column 'CustomerFeedback_missing' has 93.5% zero values
+  ⚠️ Column 'ExerciseFrequency_Daily' has 75.5% zero values
+  ⚠️ Column 'ExerciseFrequency_Monthly' has 75.0% zero values
+  ⚠️ Column 'ExerciseFrequency_Rarely' has 75.0% zero values
+  ⚠️ Column 'ExerciseFrequency_Weekly' has 74.5% zero values
+  ⚠️ Column 'PropertyType_Apartment' has 66.7% zero values
+  ⚠️ Column 'PropertyType_Condo' has 66.7% zero values
+  ⚠️ Column 'PropertyType_House' has 66.6% zero values
+
+ERRORS (33):
+  ❌ Column 'SmokingStatus' has too many zeros (49.8%)
+  ❌ Column 'InsuranceRiskScore' has too many negative values (47.6%)
+  ❌ Column 'Gender_Female' has too many zeros (50.2%)
+  ❌ Column 'Gender_Male' has too many zeros (49.8%)
+  ❌ Column 'MaritalStatus_Divorced' has too many zeros (67.4%)
+  ❌ Column 'MaritalStatus_Married' has too many zeros (67.1%)
+  ❌ Column 'MaritalStatus_Single' has too many zeros (67.1%)
+  ❌ Column 'MaritalStatus_missing' has too many zeros (98.5%)
+  ❌ Column 'EducationLevel_Bachelor's' has too many zeros (74.7%)
+  ❌ Column 'EducationLevel_High School' has too many zeros (75.9%)
+  ❌ Column 'EducationLevel_Master's' has too many zeros (74.7%)
+  ❌ Column 'EducationLevel_PhD' has too many zeros (74.7%)
+  ❌ Column 'Occupation_Employed' has too many zeros (76.4%)
+  ❌ Column 'Occupation_Self-Employed' has too many zeros (76.4%)
+  ❌ Column 'Occupation_Unemployed' has too many zeros (77.0%)
+  ❌ Column 'Occupation_missing' has too many zeros (70.2%)
+  ❌ Column 'Location_Rural' has too many zeros (66.6%)
+  ❌ Column 'Location_Suburban' has too many zeros (66.5%)
+  ❌ Column 'Location_Urban' has too many zeros (66.9%)
+  ❌ Column 'PolicyType_Basic' has too many zeros (66.8%)
+  ❌ Column 'PolicyType_Comprehensive' has too many zeros (66.7%)
+  ❌ Column 'PolicyType_Premium' has too many zeros (66.5%)
+  ❌ Column 'CustomerFeedback_Average' has too many zeros (68.5%)
+  ❌ Column 'CustomerFeedback_Good' has too many zeros (69.3%)
+  ❌ Column 'CustomerFeedback_Poor' has too many zeros (68.7%)
+  ❌ Column 'CustomerFeedback_missing' has too many zeros (93.5%)
+  ❌ Column 'ExerciseFrequency_Daily' has too many zeros (75.5%)
+  ❌ Column 'ExerciseFrequency_Monthly' has too many zeros (75.0%)
+  ❌ Column 'ExerciseFrequency_Rarely' has too many zeros (75.0%)
+  ❌ Column 'ExerciseFrequency_Weekly' has too many zeros (74.5%)
+  ❌ Column 'PropertyType_Apartment' has too many zeros (66.7%)
+  ❌ Column 'PropertyType_Condo' has too many zeros (66.7%)
+  ❌ Column 'PropertyType_House' has too many zeros (66.6%)
+
+==== VALIDATION CHECKPOINT 6 ====
+Stage: log_transform
+Data: y_train_log
+
+Statistics:
+  values:
+    count: 1200000
+    missing: 0
+    min: 3.044522437723423
+    max: 8.517193191416238
+    mean: 6.593888887593817
+    median: 6.771935555839602
+    std: 1.0958242371145162
+    zero_count: 0
+    zero_percent: 0.0
+    negative_count: 0
+    negative_percent: 0.0
+
+================================================================================
+STEP 2: FEATURE IMPORTANCE & CUSTOMER SEGMENTATION
+================================================================================
+
+Analyzing feature importance using random_forest...
+Analyzing feature importance using random_forest...
+Top 15 features: ['id', 'AnnualIncome', 'AnnualIncome_CreditScore_Interaction', 'CreditScore', 'HealthScore', 'IncomePerDependent', 'Age_HealthScore_Interaction', 'InsuranceRiskScore', 'HealthScoreToAgeRatio', 'PolicyStartDate_Day', 'VehicleAge', 'AnnualIncome_NumberofDependents_Interaction', 'PolicyStartDate_Month', 'Age', 'HealthScore_SmokingStatus_Interaction']
+
+Analyzing feature importance using correlation...
+Analyzing feature importance using correlation...
+Top 15 features: ['AnnualIncome_CreditScore_Interaction', 'AnnualIncome', 'IncomePerDependent', 'AnnualIncome_NumberofDependents_Interaction', 'CreditScore', 'PreviousClaims', 'Age_PreviousClaims_Interaction', 'InsuranceDuration_PreviousClaims_Interaction', 'CustomerFeedback_missing', 'ClaimsPerYear', 'HealthScore', 'MaritalStatus_missing', 'HealthScoreToAgeRatio', 'Age_HealthScore_Interaction', 'InsuranceRiskScore']
+
+==== VALIDATION CHECKPOINT 7 ====
+Stage: feature_importance
+Data: top_features
+
+Statistics:
+  values:
+    count: 15
+    missing: 0
+Creating 4 segments using kmeans...
+Analyzing segments...
+Segment analysis complete. Results saved to: /home/USER/Projects/ikaggle/KISS/results/fixed_pipeline/segmentation
+
+==== VALIDATION CHECKPOINT 8 ====
+Stage: segmentation
+Data: segments
+
+Statistics:
+  segments:
+    count: 960000
+    missing: 0
+    min: 0.0
+    max: 3.0
+    mean: 1.41081875
+    median: 2.0
+    std: 1.0229210810134726
+    zero_count: 267257
+    zero_percent: 27.839270833333334
+    negative_count: 0
+    negative_percent: 0.0
+
+WARNINGS (1):
+  ⚠️ Column 'segments' has 27.8% zero values
+Analyzing segments...
+Segment analysis complete. Results saved to: /home/USER/Projects/ikaggle/KISS/results/fixed_pipeline/segmentation
+
+================================================================================
+STEP 3: CREATING FEATURE SUBSETS
+================================================================================
+
+================================================================================
+STEP 4: TRAINING SEGMENT-SPECIFIC MODELS
+================================================================================
+
+Training model for segment 0...
+
+==== VALIDATION CHECKPOINT 9 ====
+Stage: segment_training
+Data: segment_0_X
+
+Statistics:
+  id:
+    count: 267257
+    missing: 0
+    min: 1.8333348611123844e-05
+    max: 0.9999916666597222
+    mean: 0.5009200716987632
+    median: 0.5013945844954871
+    std: 0.2887127885695392
+    zero_count: 0
+    zero_percent: 0.0
+    negative_count: 0
+    negative_percent: 0.0
+  Age:
+    count: 267257
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.47009359660486383
+    median: 0.4565217391304348
+    std: 0.2985433464261661
+    zero_count: 7562
+    zero_percent: 2.8294862248696946
+    negative_count: 0
+    negative_percent: 0.0
+  AnnualIncome:
+    count: 267257
+    missing: 0
+    min: 0.0
+    max: 0.8046347902610737
+    mean: 0.15842417019008698
+    median: 0.1390103736099629
+    std: 0.12238050973397066
+    zero_count: 1
+    zero_percent: 0.0003741716774490472
+    negative_count: 0
+    negative_percent: 0.0
+  NumberofDependents:
+    count: 267257
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.45768398956809364
+    median: 0.5
+    std: 0.3656289447357954
+    zero_count: 71677
+    zero_percent: 26.819503324515352
+    negative_count: 0
+    negative_percent: 0.0
+  HealthScore:
+    count: 267257
+    missing: 0
+    min: 0.3731763953459885
+    max: 1.0000000000000002
+    mean: 0.6392218102867387
+    median: 0.6275453037731702
+    std: 0.12479949379692869
+    zero_count: 0
+    zero_percent: 0.0
+    negative_count: 0
+    negative_percent: 0.0
+  PreviousClaims:
+    count: 267257
+    missing: 0
+    min: 0.0
+    max: 0.3333333333333333
+    mean: 0.043050114475745985
+    median: 0.0
+    std: 0.06446006116095891
+    zero_count: 176757
+    zero_percent: 66.13746319086123
+    negative_count: 0
+    negative_percent: 0.0
+  VehicleAge:
+    count: 267257
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.5038717906655193
+    median: 0.5263157894736842
+    std: 0.3038085455209903
+    zero_count: 13705
+    zero_percent: 5.128022839439192
+    negative_count: 0
+    negative_percent: 0.0
+  CreditScore:
+    count: 267257
+    missing: 0
+    min: 0.0
+    max: 0.9999999999999999
+    mean: 0.5426367910824298
+    median: 0.5373406193078324
+    std: 0.25276539147557675
+    zero_count: 133
+    zero_percent: 0.04976483310072327
+    negative_count: 0
+    negative_percent: 0.0
+  InsuranceDuration:
+    count: 267257
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.5053529935605054
+    median: 0.5
+    std: 0.32235125648661855
+    zero_count: 28342
+    zero_percent: 10.604773682260895
+    negative_count: 0
+    negative_percent: 0.0
+  SmokingStatus:
+    count: 267257
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.5692198894696865
+    median: 1.0
+    std: 0.49518542678657695
+    zero_count: 115129
+    zero_percent: 43.078011053031354
+    negative_count: 0
+    negative_percent: 0.0
+  PolicyStartDate_Year:
+    count: 267257
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.5242152684494814
+    median: 0.6000000000000227
+    std: 0.29419764635722945
+    zero_count: 18479
+    zero_percent: 6.914318427580943
+    negative_count: 0
+    negative_percent: 0.0
+  PolicyStartDate_Month:
+    count: 267257
+    missing: 0
+    min: 0.0
+    max: 0.9999999999999999
+    mean: 0.4986119931546992
+    median: 0.4545454545454545
+    std: 0.31171116152554007
+    zero_count: 22053
+    zero_percent: 8.251608002783838
+    negative_count: 0
+    negative_percent: 0.0
+  PolicyStartDate_Day:
+    count: 267257
+    missing: 0
+    min: 0.0
+    max: 0.9999999999999999
+    mean: 0.4903199292566082
+    median: 0.5
+    std: 0.293797825908418
+    zero_count: 8506
+    zero_percent: 3.1827042883815952
+    negative_count: 0
+    negative_percent: 0.0
+  PolicyStartDate_DayOfWeek:
+    count: 267257
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.49928408485714754
+    median: 0.5
+    std: 0.33382174798628167
+    zero_count: 38265
+    zero_percent: 14.31767923758779
+    negative_count: 0
+    negative_percent: 0.0
+  Age_HealthScore_Interaction:
+    count: 267257
+    missing: 0
+    min: 0.10387849991956348
+    max: 0.9725427022100153
+    mean: 0.4099987226639656
+    median: 0.39549564354788186
+    std: 0.17105673974012273
+    zero_count: 0
+    zero_percent: 0.0
+    negative_count: 0
+    negative_percent: 0.0
+  AnnualIncome_CreditScore_Interaction:
+    count: 267257
+    missing: 0
+    min: 0.0
+    max: 0.6092053247432022
+    mean: 0.10952959340695444
+    median: 0.09408086434102891
+    std: 0.08492574430324776
+    zero_count: 1
+    zero_percent: 0.0003741716774490472
+    negative_count: 0
+    negative_percent: 0.0
+  AnnualIncome_NumberofDependents_Interaction:
+    count: 267257
+    missing: 0
+    min: 0.0
+    max: 0.709207517483683
+    mean: 0.07227966330131484
+    median: 0.039100782015640316
+    std: 0.09010094018316255
+    zero_count: 71677
+    zero_percent: 26.819503324515352
+    negative_count: 0
+    negative_percent: 0.0
+  HealthScore_SmokingStatus_Interaction:
+    count: 267257
+    missing: 0
+    min: 0.0
+    max: 0.9920682511211331
+    mean: 0.364741422447335
+    median: 0.4921357220658443
+    std: 0.3314273842795544
+    zero_count: 115129
+    zero_percent: 43.078011053031354
+    negative_count: 0
+    negative_percent: 0.0
+  Age_PreviousClaims_Interaction:
+    count: 267257
+    missing: 0
+    min: 0.0
+    max: 0.25396825396825395
+    mean: 0.029333478191225597
+    median: 0.0
+    std: 0.045871371948960786
+    zero_count: 176757
+    zero_percent: 66.13746319086123
+    negative_count: 0
+    negative_percent: 0.0
+  InsuranceDuration_PreviousClaims_Interaction:
+    count: 267257
+    missing: 0
+    min: 0.0
+    max: 0.3333333333333333
+    mean: 0.02432453119868853
+    median: 0.0
+    std: 0.04203396213744219
+    zero_count: 176757
+    zero_percent: 66.13746319086123
+    negative_count: 0
+    negative_percent: 0.0
+  IncomePerDependent:
+    count: 267257
+    missing: 0
+    min: 0.0
+    max: 0.6896196313783112
+    mean: 0.07936763229786818
+    median: 0.0508268187412248
+    std: 0.08666903267028542
+    zero_count: 1
+    zero_percent: 0.0003741716774490472
+    negative_count: 0
+    negative_percent: 0.0
+  HealthScoreToAgeRatio:
+    count: 267257
+    missing: 0
+    min: 0.12150801190419769
+    max: 0.9519950987410378
+    mean: 0.3318710010615583
+    median: 0.29791610971011134
+    std: 0.14235987757649457
+    zero_count: 0
+    zero_percent: 0.0
+    negative_count: 0
+    negative_percent: 0.0
+  ClaimsPerYear:
+    count: 267257
+    missing: 0
+    min: 0.0
+    max: 0.25
+    mean: 0.014986803826198027
+    median: 0.0
+    std: 0.029716392699410243
+    zero_count: 176757
+    zero_percent: 66.13746319086123
+    negative_count: 0
+    negative_percent: 0.0
+  InsuranceRiskScore:
+    count: 267257
+    missing: 0
+    min: -3.1695411576732493
+    max: 0.33717871501346414
+    mean: -1.1166555661744137
+    median: -1.06138211232276
+    std: 0.590276135089421
+    zero_count: 0
+    zero_percent: 0.0
+    negative_count: 265288
+    negative_percent: 99.26325596710282
+  Gender_Female:
+    count: 267257
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.4961815780316325
+    median: 0.0
+    std: 0.49998541944107877
+    zero_count: 134649
+    zero_percent: 50.38184219683675
+    negative_count: 0
+    negative_percent: 0.0
+  Gender_Male:
+    count: 267257
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.5038184219683676
+    median: 1.0
+    std: 0.49998541944107877
+    zero_count: 132608
+    zero_percent: 49.61815780316325
+    negative_count: 0
+    negative_percent: 0.0
+  MaritalStatus_Divorced:
+    count: 267257
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.32682399338464474
+    median: 0.0
+    std: 0.46905231129668096
+    zero_count: 179911
+    zero_percent: 67.31760066153552
+    negative_count: 0
+    negative_percent: 0.0
+  MaritalStatus_Married:
+    count: 267257
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.32772948884407144
+    median: 0.0
+    std: 0.4693856314226876
+    zero_count: 179669
+    zero_percent: 67.22705111559286
+    negative_count: 0
+    negative_percent: 0.0
+  MaritalStatus_Single:
+    count: 267257
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.3306742199455954
+    median: 0.0
+    std: 0.47045592801979597
+    zero_count: 178882
+    zero_percent: 66.93257800544046
+    negative_count: 0
+    negative_percent: 0.0
+  MaritalStatus_missing:
+    count: 267257
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.014772297825688382
+    median: 0.0
+    std: 0.12064027951989148
+    zero_count: 263309
+    zero_percent: 98.52277021743116
+    negative_count: 0
+    negative_percent: 0.0
+  EducationLevel_Bachelor's:
+    count: 267257
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.25448538298342044
+    median: 0.0
+    std: 0.43557154731594017
+    zero_count: 199244
+    zero_percent: 74.55146170165796
+    negative_count: 0
+    negative_percent: 0.0
+  EducationLevel_High School:
+    count: 267257
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.23807795492727973
+    median: 0.0
+    std: 0.42590708177362335
+    zero_count: 203629
+    zero_percent: 76.19220450727202
+    negative_count: 0
+    negative_percent: 0.0
+  EducationLevel_Master's:
+    count: 267257
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.25172773772062096
+    median: 0.0
+    std: 0.43400562644127005
+    zero_count: 199981
+    zero_percent: 74.8272262279379
+    negative_count: 0
+    negative_percent: 0.0
+  EducationLevel_PhD:
+    count: 267257
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.2557089243686788
+    median: 0.0
+    std: 0.4362589487527932
+    zero_count: 198917
+    zero_percent: 74.42910756313212
+    negative_count: 0
+    negative_percent: 0.0
+  Occupation_Employed:
+    count: 267257
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.2344035890547301
+    median: 0.0
+    std: 0.423625479041324
+    zero_count: 204611
+    zero_percent: 76.559641094527
+    negative_count: 0
+    negative_percent: 0.0
+  Occupation_Self-Employed:
+    count: 267257
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.23501723060574653
+    median: 0.0
+    std: 0.424009589424758
+    zero_count: 204447
+    zero_percent: 76.49827693942535
+    negative_count: 0
+    negative_percent: 0.0
+  Occupation_Unemployed:
+    count: 267257
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.23078534893379782
+    median: 0.0
+    std: 0.4213353434632596
+    zero_count: 205578
+    zero_percent: 76.92146510662022
+    negative_count: 0
+    negative_percent: 0.0
+  Occupation_missing:
+    count: 267257
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.2997938314057256
+    median: 0.0
+    std: 0.45816753492232615
+    zero_count: 187135
+    zero_percent: 70.02061685942745
+    negative_count: 0
+    negative_percent: 0.0
+  Location_Rural:
+    count: 267257
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.33506699543884727
+    median: 0.0
+    std: 0.4720138811586272
+    zero_count: 177708
+    zero_percent: 66.49330045611528
+    negative_count: 0
+    negative_percent: 0.0
+  Location_Suburban:
+    count: 267257
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.3373195089370905
+    median: 0.0
+    std: 0.4727949426839617
+    zero_count: 177106
+    zero_percent: 66.26804910629095
+    negative_count: 0
+    negative_percent: 0.0
+  Location_Urban:
+    count: 267257
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.3276134956240622
+    median: 0.0
+    std: 0.4693430441681701
+    zero_count: 179700
+    zero_percent: 67.23865043759378
+    negative_count: 0
+    negative_percent: 0.0
+  PolicyType_Basic:
+    count: 267257
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.3327321641715652
+    median: 0.0
+    std: 0.47119154395773255
+    zero_count: 178332
+    zero_percent: 66.72678358284348
+    negative_count: 0
+    negative_percent: 0.0
+  PolicyType_Comprehensive:
+    count: 267257
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.3329267334438387
+    median: 0.0
+    std: 0.47126056869024585
+    zero_count: 178280
+    zero_percent: 66.70732665561613
+    negative_count: 0
+    negative_percent: 0.0
+  PolicyType_Premium:
+    count: 267257
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.3343411023845961
+    median: 0.0
+    std: 0.47175961001430483
+    zero_count: 177902
+    zero_percent: 66.56588976154039
+    negative_count: 0
+    negative_percent: 0.0
+  CustomerFeedback_Average:
+    count: 267257
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.3167512918277164
+    median: 0.0
+    std: 0.4652095344607516
+    zero_count: 182603
+    zero_percent: 68.32487081722836
+    negative_count: 0
+    negative_percent: 0.0
+  CustomerFeedback_Good:
+    count: 267257
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.3087776933812772
+    median: 0.0
+    std: 0.4619892092369855
+    zero_count: 184734
+    zero_percent: 69.12223066187228
+    negative_count: 0
+    negative_percent: 0.0
+  CustomerFeedback_Poor:
+    count: 267257
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.31377288527522196
+    median: 0.0
+    std: 0.4640252813600617
+    zero_count: 183399
+    zero_percent: 68.6227114724778
+    negative_count: 0
+    negative_percent: 0.0
+  CustomerFeedback_missing:
+    count: 267257
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.06069812951578443
+    median: 0.0
+    std: 0.23877576633542502
+    zero_count: 251035
+    zero_percent: 93.93018704842156
+    negative_count: 0
+    negative_percent: 0.0
+  ExerciseFrequency_Daily:
+    count: 267257
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.24517224993171366
+    median: 0.0
+    std: 0.43018928135779366
+    zero_count: 201733
+    zero_percent: 75.48277500682863
+    negative_count: 0
+    negative_percent: 0.0
+  ExerciseFrequency_Monthly:
+    count: 267257
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.24839386807454997
+    median: 0.0
+    std: 0.4320814210047836
+    zero_count: 200872
+    zero_percent: 75.160613192545
+    negative_count: 0
+    negative_percent: 0.0
+  ExerciseFrequency_Rarely:
+    count: 267257
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.24968476036174916
+    median: 0.0
+    std: 0.4328305451384469
+    zero_count: 200527
+    zero_percent: 75.03152396382508
+    negative_count: 0
+    negative_percent: 0.0
+  ExerciseFrequency_Weekly:
+    count: 267257
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.2567491216319872
+    median: 0.0
+    std: 0.4368397992092642
+    zero_count: 198639
+    zero_percent: 74.32508783680129
+    negative_count: 0
+    negative_percent: 0.0
+  PropertyType_Apartment:
+    count: 267257
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.33252262803219373
+    median: 0.0
+    std: 0.4711171084547419
+    zero_count: 178388
+    zero_percent: 66.74773719678063
+    negative_count: 0
+    negative_percent: 0.0
+  PropertyType_Condo:
+    count: 267257
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.3344533538878308
+    median: 0.0
+    std: 0.4717990122509926
+    zero_count: 177872
+    zero_percent: 66.55466461121692
+    negative_count: 0
+    negative_percent: 0.0
+  PropertyType_House:
+    count: 267257
+    missing: 0
+    min: 0.0
+    max: 1.0
+    mean: 0.33302401807997545
+    median: 0.0
+    std: 0.47129504714334053
+    zero_count: 178254
+    zero_percent: 66.69759819200246
+    negative_count: 0
+    negative_percent: 0.0
+  Cluster:
+    count: 267257
+    missing: 0
+    min: 0.0
+    max: 0.0
+    mean: 0.0
+    median: 0.0
+    std: 0.0
+    zero_count: 267257
+    zero_percent: 100.0
+    negative_count: 0
+    negative_percent: 0.0
+  Target:
+    count: 267257
+    missing: 0
+    min: 3.044522437723423
+    max: 8.514990767861038
+    mean: 6.6337993799516175
+    median: 6.79346613258001
+    std: 1.0537980811732137
+    zero_count: 0
+    zero_percent: 0.0
+    negative_count: 0
+    negative_percent: 0.0
+
+WARNINGS (36):
+  ⚠️ Column 'NumberofDependents' has 26.8% zero values
+  ⚠️ Column 'SmokingStatus' has 43.1% zero values
+  ⚠️ Column 'AnnualIncome_NumberofDependents_Interaction' has 26.8% zero values
+  ⚠️ Column 'InsuranceRiskScore' has 99.3% negative values
+  ⚠️ Column 'Gender_Female' has 50.4% zero values
+  ⚠️ Column 'Gender_Male' has 49.6% zero values
+  ⚠️ Column 'MaritalStatus_Divorced' has 67.3% zero values
+  ⚠️ Column 'MaritalStatus_Married' has 67.2% zero values
+  ⚠️ Column 'MaritalStatus_Single' has 66.9% zero values
+  ⚠️ Column 'MaritalStatus_missing' has 98.5% zero values
+  ⚠️ Column 'EducationLevel_Bachelor's' has 74.6% zero values
+  ⚠️ Column 'EducationLevel_High School' has 76.2% zero values
+  ⚠️ Column 'EducationLevel_Master's' has 74.8% zero values
+  ⚠️ Column 'EducationLevel_PhD' has 74.4% zero values
+  ⚠️ Column 'Occupation_Employed' has 76.6% zero values
+  ⚠️ Column 'Occupation_Self-Employed' has 76.5% zero values
+  ⚠️ Column 'Occupation_Unemployed' has 76.9% zero values
+  ⚠️ Column 'Occupation_missing' has 70.0% zero values
+  ⚠️ Column 'Location_Rural' has 66.5% zero values
+  ⚠️ Column 'Location_Suburban' has 66.3% zero values
+  ⚠️ Column 'Location_Urban' has 67.2% zero values
+  ⚠️ Column 'PolicyType_Basic' has 66.7% zero values
+  ⚠️ Column 'PolicyType_Comprehensive' has 66.7% zero values
+  ⚠️ Column 'PolicyType_Premium' has 66.6% zero values
+  ⚠️ Column 'CustomerFeedback_Average' has 68.3% zero values
+  ⚠️ Column 'CustomerFeedback_Good' has 69.1% zero values
+  ⚠️ Column 'CustomerFeedback_Poor' has 68.6% zero values
+  ⚠️ Column 'CustomerFeedback_missing' has 93.9% zero values
+  ⚠️ Column 'ExerciseFrequency_Daily' has 75.5% zero values
+  ⚠️ Column 'ExerciseFrequency_Monthly' has 75.2% zero values
+  ⚠️ Column 'ExerciseFrequency_Rarely' has 75.0% zero values
+  ⚠️ Column 'ExerciseFrequency_Weekly' has 74.3% zero values
+  ⚠️ Column 'PropertyType_Apartment' has 66.7% zero values
+  ⚠️ Column 'PropertyType_Condo' has 66.6% zero values
+  ⚠️ Column 'PropertyType_House' has 66.7% zero values
+  ⚠️ Column 'Cluster' has 100.0% zero values
+
+ERRORS (34):
+  ❌ Column 'SmokingStatus' has too many zeros (43.1%)
+  ❌ Column 'InsuranceRiskScore' has too many negative values (99.3%)
+  ❌ Column 'Gender_Female' has too many zeros (50.4%)
+  ❌ Column 'Gender_Male' has too many zeros (49.6%)
+  ❌ Column 'MaritalStatus_Divorced' has too many zeros (67.3%)
+  ❌ Column 'MaritalStatus_Married' has too many zeros (67.2%)
+  ❌ Column 'MaritalStatus_Single' has too many zeros (66.9%)
+  ❌ Column 'MaritalStatus_missing' has too many zeros (98.5%)
+  ❌ Column 'EducationLevel_Bachelor's' has too many zeros (74.6%)
+  ❌ Column 'EducationLevel_High School' has too many zeros (76.2%)
+  ❌ Column 'EducationLevel_Master's' has too many zeros (74.8%)
+  ❌ Column 'EducationLevel_PhD' has too many zeros (74.4%)
+  ❌ Column 'Occupation_Employed' has too many zeros (76.6%)
+  ❌ Column 'Occupation_Self-Employed' has too many zeros (76.5%)
+  ❌ Column 'Occupation_Unemployed' has too many zeros (76.9%)
+  ❌ Column 'Occupation_missing' has too many zeros (70.0%)
+  ❌ Column 'Location_Rural' has too many zeros (66.5%)
+  ❌ Column 'Location_Suburban' has too many zeros (66.3%)
+  ❌ Column 'Location_Urban' has too many zeros (67.2%)
+  ❌ Column 'PolicyType_Basic' has too many zeros (66.7%)
+  ❌ Column 'PolicyType_Comprehensive' has too many zeros (66.7%)
+  ❌ Column 'PolicyType_Premium' has too many zeros (66.6%)
+  ❌ Column 'CustomerFeedback_Average' has too many zeros (68.3%)
+  ❌ Column 'CustomerFeedback_Good' has too many zeros (69.1%)
+  ❌ Column 'CustomerFeedback_Poor' has too many zeros (68.6%)
+  ❌ Column 'CustomerFeedback_missing' has too many zeros (93.9%)
+  ❌ Column 'ExerciseFrequency_Daily' has too many zeros (75.5%)
+  ❌ Column 'ExerciseFrequency_Monthly' has too many zeros (75.2%)
+  ❌ Column 'ExerciseFrequency_Rarely' has too many zeros (75.0%)
+  ❌ Column 'ExerciseFrequency_Weekly' has too many zeros (74.3%)
+  ❌ Column 'PropertyType_Apartment' has too many zeros (66.7%)
+  ❌ Column 'PropertyType_Condo' has too many zeros (66.6%)
+  ❌ Column 'PropertyType_House' has too many zeros (66.7%)
+  ❌ Column 'Cluster' has too many zeros (100.0%)
+
+==== VALIDATION CHECKPOINT 10 ====
+Stage: segment_training
+Data: segment_0_y
+
+Statistics:
+  values:
+    count: 267257
+    missing: 0
+    min: 3.044522437723423
+    max: 8.514990767861038
+    mean: 6.6337993799516175
+    median: 6.79346613258001
+    std: 1.0537980811732137
+    zero_count: 0
+    zero_percent: 0.0
+    negative_count: 0
+    negative_percent: 0.0

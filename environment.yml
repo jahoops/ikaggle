@@ -1,0 +1,22 @@
+name: ikaggle-gpu
+channels:
+  - conda-forge
+  - nvidia
+  - defaults
+dependencies:
+  - python=3.9  # TF 2.15 works better with Python 3.9
+  - pip
+  - numpy=1.24.3
+  - pandas>=2.0.0
+  - scikit-learn>=1.6.1
+  - cudatoolkit=11.8
+  - cudnn=8.9
+  - pip:
+    - tensorflow==2.15.0  # Let pip handle TF installation
+    - keras==2.15.0
+    - deap>=1.3.3
+    - scoop>=0.7.1.1
+    - torch>=2.5.1
+    - numba>=0.58.0
+    - pyyaml
+    - joblib

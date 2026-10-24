@@ -1,0 +1,15 @@
+AnnualIncome
+AnnualIncome_CreditScore_Interaction
+CreditScore
+IncomePerDependent
+HealthScore
+AnnualIncome_NumberofDependents_Interaction
+Age_HealthScore_Interaction
+HealthScoreToAgeRatio
+InsuranceRiskScore
+Age_PreviousClaims_Interaction
+PreviousClaims
+InsuranceDuration_PreviousClaims_Interaction
+ClaimsPerYear
+HealthScore_SmokingStatus_Interaction
+PolicyStartDate_Year

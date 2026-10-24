@@ -1,0 +1,9 @@
+{
+  "params": {
+    "C": 1000.0,
+    "epsilon": 0.1,
+    "kernel": "linear"
+  },
+  "score": 0.4532211575557989,
+  "timestamp": "202501292343"
+}

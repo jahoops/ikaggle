@@ -1,0 +1,135 @@
+# General Settings
+project:
+  name: InsuranceNext
+  version: 1.0
+  author: Your Name
+
+# Data Settings
+data:
+  raw_data_path: data/raw/
+  processed_data_path: data/processed/
+  target_column: "Premium Amount"
+
+# Logging Settings
+logging:
+  log_file: output/logs/experiment_logs.log
+  log_level: INFO
+
+# Experiment Settings
+experiment:
+  output_path: output
+  batch_size: 32
+  random_state: 42
+  cv_folds: 5
+  n_iter_search: 20
+
+# Models Configuration
+models:
+  catboost:
+    estimator: "CatBoostRegressor"
+    parameters:
+      iterations: 500
+      learning_rate: 0.05
+      depth: 6
+      loss_function: "RMSE"
+      random_state: 42
+      verbose: 0
+      task_type: "GPU"
+      # Add other CatBoost parameters as needed
+
+  knn:
+    estimator: "KNeighborsRegressor"
+    parameters:
+      n_neighbors: 5
+      weights: "uniform"
+      algorithm: "auto"
+      # Add other KNN parameters as needed
+
+  lightgbm:
+    estimator: "LGBMRegressor"
+    parameters:
+      n_estimators: 100
+      learning_rate: 0.05
+      num_leaves: 31
+      random_state: 42
+      # Add other LightGBM parameters as needed
+
+  linear:
+    fit_intercept: true
+    copy_X: true
+    # Add other LinearRegression parameters as needed
+
+  neuralnet:
+    estimator: "MLPRegressor"
+    parameters:
+      hidden_layer_sizes: [100]
+      activation: "relu"
+      solver: "adam"
+      alpha: 0.0001
+      learning_rate: "constant"
+      random_state: 42
+      # Add other MLPRegressor parameters as needed
+
+  randomforest:
+    # Add random forest parameters as needed
+
+  svr:
+    estimator: "SVR"
+    parameters:
+      C: 1.0
+      epsilon: 0.1
+      kernel: "rbf"
+      # Add other SVR parameters as needed
+
+  xgboost:
+    estimator: "XGBRegressor"
+    parameters:
+      n_estimators: 100
+      learning_rate: 0.05
+      max_depth: 6
+      random_state: 42
+      # Add other XGBRegressor parameters as needed
+
+# Test Mode Settings
+test_mode:
+  enabled: false  # Set to true to enable test mode
+  sample_size: 100  # Number of samples to load for testing
+  quick_params:
+    # Define minimal hyperparameters for each model
+    catboost:
+      iterations: 10
+      learning_rate: 0.1
+      depth: 4
+    knn:
+      n_neighbors: 3
+    lightgbm:
+      n_estimators: 50
+      learning_rate: 0.1
+      num_leaves: 16
+    linear:
+      fit_intercept: true
+      normalize: false
+      copy_X: true
+    ridge:
+      fit_intercept: true
+      normalize: false
+      copy_X: true
+    neuralnet:
+      hidden_layer_sizes: [10]
+      activation: "relu"
+      solver: "adam"
+      alpha: 0.0001
+      learning_rate: "constant"
+    randomforest:
+      n_estimators: 50
+      max_depth: 10
+      random_state: 42
+    svr:
+      C: 0.5
+      epsilon: 0.1
+      kernel: "linear"
+    xgboost:
+      n_estimators: 50
+      learning_rate: 0.1
+      max_depth: 4
+      random_state: 42

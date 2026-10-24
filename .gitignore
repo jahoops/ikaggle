@@ -1,0 +1,96 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+venv/
+.venv-py310/
+.venv/
+env/
+.venv/
+env.bak/
+venv.bak/
+.venv-py311/
+
+# Jupyter notebooks checkpoints
+.ipynb_checkpoints/
+
+# VSCode settings
+.vscode/
+
+# macOS / Linux
+.DS_Store
+*.swp
+*.swo
+
+# PyTest cache
+.pytest_cache/
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# Ignore all CSV files
+*.csv
+*.json
+*.pyc
+*.pt
+*.tsv
+*.keras
+*.pkl
+*.png
+*.v2
+*.h5
+
+# Local environments, dependencies, and generated output
+.env
+.env.*
+!.env.example
+node_modules/
+bower_components/
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.vs/
+.vscode/
+.idea/
+bin/
+obj/
+dist/
+build/
+coverage/
+*.log
+*.tmp
+*.cache
+
+# Local data, trained models, archives, and credentials
+*.pkl
+*.pickle
+*.joblib
+*.h5
+*.keras
+*.pt
+*.pth
+*.onnx
+*.npy
+*.npz
+*.zip
+*.7z
+*.rar
+*.tar
+*.tgz
+*.gz
+*.db
+*.sqlite*
+*.pem
+*.key
+*.p12
+*.pfx
+

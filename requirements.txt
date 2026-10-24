@@ -1,0 +1,24 @@
+# Core ML packages
+numpy==1.24.3
+pandas>=2.0.0
+scikit-learn>=1.6.1
+
+# Deep Learning
+tensorflow==2.15.0
+keras==2.15.0
+
+# Genetic Algorithm
+deap>=1.3.3
+scoop>=0.7.1.1
+
+# GPU Support
+torch>=2.5.1
+numba>=0.58.0
+psutil>=5.6.0
+gpustat>=1.1.1
+wcwidth>=0.1.4
+blessed>=1.20.0
+
+# Additional dependencies
+pyyaml
+joblib
